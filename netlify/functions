@@ -1,8 +1,1 @@
-portfolio/
-│
-├── index.html
-├── admin.html
-├── videos.json
-└── netlify/
-    └── functions/
-        └── save-data.js
+
