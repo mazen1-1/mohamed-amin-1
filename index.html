@@ -813,40 +813,59 @@
       }
 
       /* ===================== PORTFOLIO ===================== */
-      #portfolio {
-        background: var(--black);
-      }
+<div id="portfolio-container">
+  <div style="text-align:center;padding:3rem;color:#8a8680">
+    ⏳ جاري تحميل الأعمال...
+  </div>
+</div>     
+    /* ══ LOAD FROM GITHUB ══ */
+(function () {
+  const GITHUB_USER = 'mazen1-1';
+  const GITHUB_REPO = 'portfolio';
+  const FILE_PATH   = 'videos.json';
 
-      .portfolio-category {
-        margin-bottom: 5rem;
-      }
+  fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${FILE_PATH}`)
+    .then(r => r.json())
+    .then(data => {
+      const container = document.getElementById('portfolio-container');
+      container.innerHTML = '';
 
-      .portfolio-category:last-child {
-        margin-bottom: 0;
-      }
+      data.sections.forEach(section => {
+        const isShort   = section.type === 'short';
+        const cardClass = isShort ? 'aspect-916' : 'aspect-169';
+        const modalType = isShort ? 'short' : 'wide';
 
-      .cat-title {
-        font-family: 'Cairo', sans-serif;
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--gold);
-        margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
+        let gridClass = isShort ? 'videos-grid-shorts' : 'videos-grid-wide';
+        let gridStyle = '';
+        if (isShort && section.videos.length === 1) gridClass = 'videos-grid-single';
+        else if (isShort && section.videos.length === 2)
+          gridStyle = ' style="grid-template-columns:repeat(2,1fr);max-width:520px"';
 
-      .cat-title::after {
-        content: '';
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          rgba(201, 168, 76, 0.4),
-          transparent
-        );
-      }
+        const cards = section.videos.map(v => `
+          <div class="video-card ${cardClass}" onclick="openModal('${v.id}','${modalType}')">
+            <img class="video-thumb"
+              src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg"
+              alt="${v.alt || ''}" loading="lazy"/>
+            <div class="video-overlay">
+              <div class="play-btn"><div class="play-icon"></div></div>
+            </div>
+          </div>`).join('');
 
+        container.insertAdjacentHTML('beforeend', `
+          <div class="portfolio-category reveal">
+            <div class="cat-title">${section.title}</div>
+            <div class="${gridClass}"${gridStyle}>${cards}</div>
+          </div>`);
+      });
+
+      container.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    })
+    .catch(() => {
+      document.getElementById('portfolio-container').innerHTML =
+        '<div style="text-align:center;color:#8a8680;padding:2rem">تعذّر تحميل الأعمال</div>';
+    });
+})();
+      
       /* ===================== VIDEO GRID — MIXED LAYOUT ===================== */
 
       /* Shorts grid: up to 4 per row, cards are 9:16 */
