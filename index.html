@@ -813,59 +813,40 @@
       }
 
       /* ===================== PORTFOLIO ===================== */
-<div id="portfolio-container">
-  <div style="text-align:center;padding:3rem;color:#8a8680">
-    ⏳ جاري تحميل الأعمال...
-  </div>
-</div>     
-    /* ══ LOAD FROM GITHUB ══ */
-(function () {
-  const GITHUB_USER = 'mazen1-1';
-  const GITHUB_REPO = 'portfolio';
-  const FILE_PATH   = 'videos.json';
+      #portfolio {
+        background: var(--black);
+      }
 
-  fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${FILE_PATH}`)
-    .then(r => r.json())
-    .then(data => {
-      const container = document.getElementById('portfolio-container');
-      container.innerHTML = '';
+      .portfolio-category {
+        margin-bottom: 5rem;
+      }
 
-      data.sections.forEach(section => {
-        const isShort   = section.type === 'short';
-        const cardClass = isShort ? 'aspect-916' : 'aspect-169';
-        const modalType = isShort ? 'short' : 'wide';
+      .portfolio-category:last-child {
+        margin-bottom: 0;
+      }
 
-        let gridClass = isShort ? 'videos-grid-shorts' : 'videos-grid-wide';
-        let gridStyle = '';
-        if (isShort && section.videos.length === 1) gridClass = 'videos-grid-single';
-        else if (isShort && section.videos.length === 2)
-          gridStyle = ' style="grid-template-columns:repeat(2,1fr);max-width:520px"';
+      .cat-title {
+        font-family: 'Cairo', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
 
-        const cards = section.videos.map(v => `
-          <div class="video-card ${cardClass}" onclick="openModal('${v.id}','${modalType}')">
-            <img class="video-thumb"
-              src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg"
-              alt="${v.alt || ''}" loading="lazy"/>
-            <div class="video-overlay">
-              <div class="play-btn"><div class="play-icon"></div></div>
-            </div>
-          </div>`).join('');
+      .cat-title::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          rgba(201, 168, 76, 0.4),
+          transparent
+        );
+      }
 
-        container.insertAdjacentHTML('beforeend', `
-          <div class="portfolio-category reveal">
-            <div class="cat-title">${section.title}</div>
-            <div class="${gridClass}"${gridStyle}>${cards}</div>
-          </div>`);
-      });
-
-      container.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-    })
-    .catch(() => {
-      document.getElementById('portfolio-container').innerHTML =
-        '<div style="text-align:center;color:#8a8680;padding:2rem">تعذّر تحميل الأعمال</div>';
-    });
-})();
-      
       /* ===================== VIDEO GRID — MIXED LAYOUT ===================== */
 
       /* Shorts grid: up to 4 per row, cards are 9:16 */
@@ -1720,9 +1701,251 @@
           <div class="section-line" style="margin: 0 auto 0"></div>
         </div>
 
+        <!-- ── مونتاج التداول (4 shorts → 9:16) ── -->
+        <div class="portfolio-category reveal">
+          <div class="cat-title">🕯️ مونتاج التداول</div>
+          <div class="videos-grid-shorts">
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('TrBe1zkRTzU','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/TrBe1zkRTzU/hqdefault.jpg"
+                alt="مونتاج تداول 1"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
 
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('PcbFFR7wB30','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/PcbFFR7wB30/hqdefault.jpg"
+                alt="مونتاج تداول 2"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('80Dt_MiwuEc','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/80Dt_MiwuEc/hqdefault.jpg"
+                alt="مونتاج تداول 3"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('BtCXpxVyCew','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/BtCXpxVyCew/hqdefault.jpg"
+                alt="مونتاج تداول 4"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── مونتاج الريلز (5 shorts → 9:16) ── -->
+        <div class="portfolio-category reveal">
+          <div class="cat-title">📱 مونتاج الريلز</div>
+          <div class="videos-grid-shorts">
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('GKpqDPc5H30','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/GKpqDPc5H30/hqdefault.jpg"
+                alt="ريلز 1"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('TrBe1zkRTzU','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/TrBe1zkRTzU/hqdefault.jpg"
+                alt="ريلز 2"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('aNbS8hpdHI8','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/aNbS8hpdHI8/hqdefault.jpg"
+                alt="ريلز 3"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('3vecRu5KHbk','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/3vecRu5KHbk/hqdefault.jpg"
+                alt="ريلز 4"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('3xwYJfmjX8Y','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/3xwYJfmjX8Y/hqdefault.jpg"
+                alt="ريلز 5"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── مونتاج الجيمنج (2 regular → 16:9) ── -->
+        <div class="portfolio-category reveal">
+          <div class="cat-title">🎮 مونتاج الجيمنج</div>
+          <div class="videos-grid-wide">
+            <div
+              class="video-card aspect-169"
+              onclick="openModal('xVq7klbIzLU','wide')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/xVq7klbIzLU/hqdefault.jpg"
+                alt="جيمنج 1"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-169"
+              onclick="openModal('Lf-Re4re3Y0','wide')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/Lf-Re4re3Y0/hqdefault.jpg"
+                alt="جيمنج 2"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── مونتاج العقارات (1 short → 9:16) ── -->
+        <div class="portfolio-category reveal">
+          <div class="cat-title">🏠 مونتاج العقارات</div>
+          <div class="videos-grid-single">
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('LQ3UJdYLQRA','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/LQ3UJdYLQRA/hqdefault.jpg"
+                alt="عقارات 1"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── مونتاج المطاعم (2 shorts → 9:16) ── -->
+        <div class="portfolio-category reveal">
+          <div class="cat-title">🍽️ مونتاج المطاعم</div>
+          <div
+            class="videos-grid-shorts"
+            style="grid-template-columns: repeat(2, 1fr); max-width: 520px"
+          >
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('Pu3yAh-9PqU','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/Pu3yAh-9PqU/hqdefault.jpg"
+                alt="مطاعم 1"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+
+            <div
+              class="video-card aspect-916"
+              onclick="openModal('YJhMXxlRmoM','short')"
+            >
+              <img
+                class="video-thumb"
+                src="https://i.ytimg.com/vi/YJhMXxlRmoM/hqdefault.jpg"
+                alt="مطاعم 2"
+                loading="lazy"
+              />
+              <div class="video-overlay">
+                <div class="play-btn"><div class="play-icon"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+
     <!-- CONTACT -->
     <section id="contact">
       <div class="container">
