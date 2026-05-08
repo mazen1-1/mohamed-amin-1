@@ -419,22 +419,30 @@ const GH_HEADERS = {
 };
 
 async function loadFromGitHub() {
-  setStatus('loading', 'جاري تحميل البيانات من GitHub...');
+  setStatus('loading', 'جاري تحميل البيانات...');
   try {
-    const res = await fetch(
+    // STEP 1: قراءة المحتوى من raw URL (بدون auth — أسرع وأثبت)
+    const rawUrl = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/${DATA_FILE}?t=${Date.now()}`;
+    const rawRes = await fetch(rawUrl);
+    if (!rawRes.ok) throw new Error('تعذّر قراءة الملف (HTTP ' + rawRes.status + ')');
+    const data = await rawRes.json();
+    categories = data.categories || [];
+
+    // STEP 2: جلب الـ SHA عن طريق API علشان نقدر نعدّل لاحقاً
+    const shaRes = await fetch(
       `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE}`,
       { headers: GH_HEADERS }
     );
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const json = await res.json();
-    fileSha = json.sha;
-    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
-    categories = decoded.categories || [];
+    if (shaRes.ok) {
+      const shaJson = await shaRes.json();
+      fileSha = shaJson.sha;
+    }
+
     renderAll();
-    setStatus('ok', `تم التحميل بنجاح — ${categories.length} أقسام، ${categories.reduce((a,c)=>a+c.videos.length,0)} فيديو`);
+    setStatus('ok', `تم التحميل ✅ — ${categories.length} أقسام، ${categories.reduce((a,c)=>a+c.videos.length,0)} فيديو`);
   } catch(e) {
-    setStatus('error', 'تعذّر التحميل: ' + e.message);
-    showToast('خطأ في تحميل البيانات', 'error');
+    setStatus('error', 'خطأ: ' + e.message);
+    showToast('❌ ' + e.message, 'error');
   }
 }
 
