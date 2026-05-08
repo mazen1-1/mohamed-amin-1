@@ -5,10 +5,26 @@
       "title": "🕯️ مونتاج التداول",
       "layout": "shorts",
       "videos": [
-        { "id": "TrBe1zkRTzU", "type": "short", "title": "مونتاج تداول 1" },
-        { "id": "PcbFFR7wB30", "type": "short", "title": "مونتاج تداول 2" },
-        { "id": "80Dt_MiwuEc", "type": "short", "title": "مونتاج تداول 3" },
-        { "id": "BtCXpxVyCew", "type": "short", "title": "مونتاج تداول 4" }
+        {
+          "id": "TrBe1zkRTzU",
+          "type": "short",
+          "title": "مونتاج تداول 1"
+        },
+        {
+          "id": "PcbFFR7wB30",
+          "type": "short",
+          "title": "مونتاج تداول 2"
+        },
+        {
+          "id": "80Dt_MiwuEc",
+          "type": "short",
+          "title": "مونتاج تداول 3"
+        },
+        {
+          "id": "BtCXpxVyCew",
+          "type": "short",
+          "title": "مونتاج تداول 4"
+        }
       ]
     },
     {
@@ -16,11 +32,31 @@
       "title": "📱 مونتاج الريلز",
       "layout": "shorts",
       "videos": [
-        { "id": "GKpqDPc5H30", "type": "short", "title": "ريلز 1" },
-        { "id": "TrBe1zkRTzU", "type": "short", "title": "ريلز 2" },
-        { "id": "aNbS8hpdHI8", "type": "short", "title": "ريلز 3" },
-        { "id": "3vecRu5KHbk", "type": "short", "title": "ريلز 4" },
-        { "id": "3xwYJfmjX8Y", "type": "short", "title": "ريلز 5" }
+        {
+          "id": "GKpqDPc5H30",
+          "type": "short",
+          "title": "ريلز 1"
+        },
+        {
+          "id": "aNbS8hpdHI8",
+          "type": "short",
+          "title": "ريلز 3"
+        },
+        {
+          "id": "TrBe1zkRTzU",
+          "type": "short",
+          "title": "ريلز 2"
+        },
+        {
+          "id": "3vecRu5KHbk",
+          "type": "short",
+          "title": "ريلز 4"
+        },
+        {
+          "id": "3xwYJfmjX8Y",
+          "type": "short",
+          "title": "ريلز 5"
+        }
       ]
     },
     {
@@ -28,8 +64,16 @@
       "title": "🎮 مونتاج الجيمنج",
       "layout": "wide",
       "videos": [
-        { "id": "xVq7klbIzLU", "type": "wide", "title": "جيمنج 1" },
-        { "id": "Lf-Re4re3Y0", "type": "wide", "title": "جيمنج 2" }
+        {
+          "id": "xVq7klbIzLU",
+          "type": "wide",
+          "title": "جيمنج 1"
+        },
+        {
+          "id": "Lf-Re4re3Y0",
+          "type": "wide",
+          "title": "جيمنج 2"
+        }
       ]
     },
     {
@@ -37,7 +81,11 @@
       "title": "🏠 مونتاج العقارات",
       "layout": "single",
       "videos": [
-        { "id": "LQ3UJdYLQRA", "type": "short", "title": "عقارات 1" }
+        {
+          "id": "LQ3UJdYLQRA",
+          "type": "short",
+          "title": "عقارات 1"
+        }
       ]
     },
     {
@@ -45,8 +93,16 @@
       "title": "🍽️ مونتاج المطاعم",
       "layout": "shorts-2",
       "videos": [
-        { "id": "Pu3yAh-9PqU", "type": "short", "title": "مطاعم 1" },
-        { "id": "YJhMXxlRmoM", "type": "short", "title": "مطاعم 2" }
+        {
+          "id": "Pu3yAh-9PqU",
+          "type": "short",
+          "title": "مطاعم 1"
+        },
+        {
+          "id": "YJhMXxlRmoM",
+          "type": "short",
+          "title": "مطاعم 2"
+        }
       ]
     }
   ]
