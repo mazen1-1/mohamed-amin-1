@@ -324,7 +324,7 @@
   <header>
     <div class="header-logo">🎬 لوحة التحكم</div>
     <div class="header-right">
-      <a href="https://mohamed-amin.pages.dev/" target="_blank" class="header-site-link">
+      <a href="https://mohamed-amin-1.netlify.app/" target="_blank" class="header-site-link">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         عرض الموقع
       </a>
@@ -381,7 +381,7 @@
    CONFIG
 ════════════════════════════════════════════ */
 const ADMIN_PASSWORD = 'amin2025';
-const GITHUB_TOKEN   = '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';
+const GITHUB_TOKEN   = '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';
 const GITHUB_OWNER   = 'mazen1-1';
 const GITHUB_REPO    = 'mohamed-amin-1';
 const DATA_FILE      = 'portfolio-data.json';
@@ -431,7 +431,8 @@ async function loadFromGitHub() {
       const apiJson = await apiRes.json();
       fileSha = apiJson.sha;
       // المحتوى مرمّز بـ base64
-      const decoded = JSON.parse(atob(apiJson.content.replace(/\s/g, '')));
+      const bytes = Uint8Array.from(atob(apiJson.content.replace(/[ \n\r]/g,"")), c=>c.charCodeAt(0));
+      const decoded = JSON.parse(new TextDecoder("utf-8").decode(bytes));
       categories = decoded.categories || [];
       renderAll();
       setStatus('ok', `تم التحميل ✅ — ${categories.length} أقسام، ${categories.reduce((a,c)=>a+c.videos.length,0)} فيديو`);
