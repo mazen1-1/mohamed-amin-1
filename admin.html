@@ -298,6 +298,7 @@
     <div class="login-logo">م · أ — ADMIN</div>
     <div class="login-title">لوحة تحكم المحتوى</div>
     <input class="login-input" id="pw-input" type="password" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <input class="login-input" id="token-input" type="password" placeholder="التوكن" onkeydown="if(event.key==='Enter')doLogin()"/>
     <button class="login-btn" onclick="doLogin()">دخول</button>
     <div class="login-error" id="login-error">كلمة المرور غلط، حاول تاني</div>
   </div>
@@ -381,7 +382,7 @@
    CONFIG
 ════════════════════════════════════════════ */
 const ADMIN_PASSWORD = 'amin2025';
-const GITHUB_TOKEN   = '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';
+let GITHUB_TOKEN     = '';   // يُملأ من المستخدم عند الدخول — لا يُخزَّن في الكود
 const GITHUB_OWNER   = 'mazen1-1';
 const GITHUB_REPO    = 'mohamed-amin-1';
 const DATA_FILE      = 'portfolio-data.json';
@@ -396,15 +397,21 @@ let fileSha     = null;
    LOGIN
 ════════════════════════════════════════════ */
 function doLogin() {
-  const val = document.getElementById('pw-input').value;
-  const err = document.getElementById('login-error');
-  if (val === ADMIN_PASSWORD) {
+  const val   = document.getElementById('pw-input').value;
+  const token = document.getElementById('token-input').value.trim();
+  const err   = document.getElementById('login-error');
+  if (val === ADMIN_PASSWORD && token) {
+    GITHUB_TOKEN = token;   // يُحفظ في الذاكرة فقط — لا يظهر في الكود
+    document.getElementById('token-input').value = '';  // امسح الحقل فوراً
+    document.getElementById('pw-input').value   = '';
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').classList.add('visible');
     loadFromGitHub();
   } else {
     err.style.display = 'block';
-    document.getElementById('pw-input').value = '';
+    err.textContent = !token ? 'أدخل التوكن أيضاً' : 'كلمة المرور غلط، حاول تاني';
+    document.getElementById('pw-input').value   = '';
+    document.getElementById('token-input').value = '';
     document.getElementById('pw-input').focus();
   }
 }
