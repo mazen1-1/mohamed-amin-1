@@ -65,14 +65,14 @@
       "layout": "wide",
       "videos": [
         {
-          "id": "xVq7klbIzLU",
-          "type": "wide",
-          "title": "جيمنج 1"
-        },
-        {
           "id": "Lf-Re4re3Y0",
           "type": "wide",
           "title": "جيمنج 2"
+        },
+        {
+          "id": "xVq7klbIzLU",
+          "type": "wide",
+          "title": "جيمنج 1"
         }
       ]
     },
