@@ -6,14 +6,14 @@
       "layout": "shorts",
       "videos": [
         {
-          "id": "TrBe1zkRTzU",
-          "type": "short",
-          "title": "مونتاج تداول 1"
-        },
-        {
           "id": "PcbFFR7wB30",
           "type": "short",
           "title": "مونتاج تداول 2"
+        },
+        {
+          "id": "TrBe1zkRTzU",
+          "type": "short",
+          "title": "مونتاج تداول 1"
         },
         {
           "id": "80Dt_MiwuEc",
@@ -105,6 +105,5 @@
         }
       ]
     }
-  ],
-  "stats": []
+  ]
 }
