@@ -12,6 +12,16 @@
 @media(max-width:880px){.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.shell{width:calc(100% - 30px)}}
 @media(max-width:620px){nav{height:66px}.brand img{max-width:115px;max-height:34px}.nav-links{gap:10px}.nav-links a{font-size:10px}.nav-links a:nth-child(2){display:none}.page-head{padding:45px 0 22px}.page-head h1{font-size:38px}.page-head p{font-size:12px}.category-title{padding:12px 14px}.category-title h2{font-size:15px}.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.work-card.horizontal{grid-column:span 2}.work-card .card-meta{padding:10px}.card-meta h3{font-size:11px}.card-meta p{font-size:9px}.play-button{width:40px;height:40px}.media-modal{padding:8px}.close{right:0;top:0}.modal-frame{width:96vw;height:72vh}.modal-frame.vertical{width:min(56vh,88vw);height:76vh}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+/* Broader responsive container on desktop; retain compact mobile gutters. */
+.shell{width:min(1500px,calc(100% - clamp(24px,4vw,72px)))}
+@media(min-width:1700px){.shell{width:min(1680px,calc(100% - 7vw))}}
+@media(max-width:600px){.shell{width:calc(100% - 24px)}}
+
+/* Responsive width refinement */
+.shell{width:min(1500px,calc(100% - clamp(24px,4vw,72px)))}
+@media(min-width:1700px){.shell{width:min(1680px,calc(100% - 7vw))}}
+@media(max-width:600px){.shell{width:calc(100% - 24px)}}
 </style>
 </head>
 <body><div class="shell"><nav><a class="brand" href="index.html" aria-label="Home"><img src="logo-M.A01.png" alt="Mohamed Amin"></a><div class="nav-links"><a href="index.html#home" data-en="Home" data-ar="الرئيسية">Home</a><a href="index.html#about" data-en="About Me" data-ar="من أنا">About Me</a><a href="index.html#contact" data-en="Contact" data-ar="تواصل">Contact</a><button class="lang" id="langToggle">العربية</button></div></nav>
