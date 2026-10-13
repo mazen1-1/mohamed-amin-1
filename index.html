@@ -326,6 +326,22 @@ html, body { max-width:100%; overflow-x:clip; }
 @media(max-width:700px){.reviews-grid-home{grid-template-columns:1fr}.review-image-home{grid-template-columns:1fr}.review-image-home img{max-height:300px}.work-intro{align-items:flex-start}.work-marquee{border-radius:14px}.work-track{gap:10px;animation-duration:22s}.media-modal{padding:10px}.media-modal-close{top:0;right:0}.media-modal-frame{width:96vw;height:70vh}.media-modal-frame.vertical{width:min(58vh,86vw);height:76vh}.info-wrap .panel>.section-heading{font-size:clamp(16px,4.5vw,25px)!important;white-space:normal}}
 @media(prefers-reduced-motion:reduce){.work-track{animation:none!important;transform:none!important}.work-marquee{overflow-x:auto;mask-image:none}}
 
+
+/* Responsive width refinement for wide desktops and laptops */
+.site{width:min(1560px,calc(100% - clamp(24px,4vw,76px)))}
+.hero-stage{max-width:none}
+.section{max-width:1320px}
+.info-wrap{max-width:1120px}
+@media(min-width:1700px){.site{width:min(1680px,calc(100% - 7vw))}.section{max-width:1450px}.info-wrap{max-width:1200px}}
+@media(max-width:600px){.site{width:calc(100% - 24px)}}
+
+.video-card .hero-thumbnail{position:absolute;inset:0;z-index:3;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:1;transition:opacity .4s ease}
+.video-card .hero-thumbnail.is-hidden{opacity:0}
+
+.trust-title-wrap{width:max-content;max-width:100%;margin:0 auto 25px}
+.trust-title-wrap h2{width:max-content;max-width:100%;margin:0 auto 8px!important;white-space:normal}
+.trust-title-wrap .section-rule{width:100%;margin:0 auto!important}
+@media(max-width:600px){.info-wrap .trust-title-wrap{margin-bottom:17px}.info-wrap .trust-title-wrap h2{font-size:21px!important;line-height:1.45}}
 </style>
 </head>
 <body>
@@ -338,7 +354,7 @@ html, body { max-width:100%; overflow-x:clip; }
 <div class="video-card right"><iframe src="https://www.youtube-nocookie.com/embed/a7r3u3nmCsQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=a7r3u3nmCsQ&amp;controls=0&amp;disablekb=1&amp;fs=0&amp;iv_load_policy=3&amp;playsinline=1&amp;rel=0" title="Video preview right" loading="eager" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1"></iframe></div>
 <div class="video-card mobile-video" aria-label="Vertical video preview center"><iframe src="https://www.youtube-nocookie.com/embed/a7r3u3nmCsQ?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=a7r3u3nmCsQ&amp;controls=0&amp;disablekb=1&amp;fs=0&amp;iv_load_policy=3&amp;playsinline=1&amp;rel=0" title="Video preview center" loading="eager" allow="autoplay; encrypted-media" referrerpolicy="strict-origin-when-cross-origin" tabindex="-1"></iframe></div>
 </div></section>
-<section class="info-wrap" aria-label="Statistics"><div class="panel"><h2 class="section-heading" style="font-size:25px;text-align:center;margin:0 0 8px" data-en="Why Do Clients Trust Me?" data-ar="لماذا يثق بي عملائي؟">Why Do Clients Trust Me?</h2><hr class="section-rule" style="margin:0 auto 25px"><div class="stats">
+<section class="info-wrap" aria-label="Statistics"><div class="panel"><div class="trust-title-wrap"><h2 class="section-heading" style="font-size:25px;text-align:center;margin:0 0 8px" data-en="Why Do Clients Trust Me?" data-ar="لماذا يثق بي عملائي؟">Why Do Clients Trust Me?</h2><hr class="section-rule" style="margin:0 auto 25px"></div><div class="stats">
 <div class="stat"><strong>0</strong><small data-en="Projects Delivered Late" data-ar="مشروع تأخر عن موعد التسليم">Projects Delivered Late</small></div><div class="stat"><strong dir="ltr">24<em class="accent">h</em></strong><small data-en="Available for Feedback" data-ar="متاح للرد على الملاحظات">Available for Feedback</small></div><div class="stat"><strong dir="ltr">70<em class="accent">%</em></strong><small data-en="Repeat Clients" data-ar="عملاء يكررون التعامل">Repeat Clients</small></div><div class="stat"><strong dir="ltr">24<em class="accent">h</em></strong><small data-en="Average Turnaround" data-ar="متوسط مدة التسليم">Average Turnaround</small></div>
 </div></div></section>
 <section class="section" id="about"><h2 class="section-heading" data-en="About Me" data-ar="من أنا">About Me</h2><hr class="section-rule"><div class="about-grid"><div class="about-copy"><h3 class="section-heading about-name" data-en="I'm Mohamed Amin" data-ar="أنا محمد أمين">I'm Mohamed Amin</h3><p class="about-text" data-en="I'll help you present the content you want to share in the best possible way. If you're promoting a service or product, I'll help you increase sales as effectively as possible." data-ar="هساعدك توصل بالمحتوى اللي حابب تقدّمه بشكل مثالي. ولو بتقدّم خدمة أو منتج، هساعدك تزود مبيعاتك بأفضل طريقة ممكنة.">I'll help you present the content you want to share in the best possible way. If you're promoting a service or product, I'll help you increase sales as effectively as possible.</p><p class="about-text" data-en="I have over 3 years of editing experience, which helps me understand your idea and the goal of the video clearly, so we can achieve the greatest success together." data-ar="عندي خبرة في الـ Editing لأكتر من 3 سنوات، وده يخلّيني أفهم فكرتك والهدف من الفيديو بشكل واضح، علشان نقدر نحقق أكبر نجاح سوا.">I have over 3 years of editing experience, which helps me understand your idea and the goal of the video clearly, so we can achieve the greatest success together.</p></div><div class="software-column"><h3 class="section-heading software-heading" data-en="Software I Use" data-ar="البرامج التي أتقنها">Software I Use</h3><hr class="section-rule software-rule"><div class="software-list"><div class="software" role="img" aria-label="Adobe After Effects"><img src="https://main--cc--adobecom.aem.live/cc-shared/assets/img/product-icons/svg/after-effects-40.svg" alt="Adobe After Effects" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="fallback">Ae</span></div><div class="software" role="img" aria-label="Adobe Premiere Pro"><img src="https://main--cc--adobecom.aem.live/cc-shared/assets/img/product-icons/svg/premiere-pro-40.svg" alt="Adobe Premiere Pro" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="fallback">Pr</span></div><div class="software" role="img" aria-label="Adobe Photoshop"><img src="https://main--cc--adobecom.aem.live/cc-shared/assets/img/product-icons/svg/photoshop-40.svg" alt="Adobe Photoshop" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="fallback">Ps</span></div><div class="software blender-software" role="img" aria-label="Blender"><img src="https://ih1.redbubble.net/image.5513011185.9723/st,small,507x507-pad,600x600,f8f8f8.jpg" alt="Blender" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="fallback">Blender</span></div></div></div></div></section>
@@ -451,10 +467,18 @@ initializeLanguage();
   }
   const allHeroCards = [document.querySelector('.video-card.left iframe'),document.querySelector('.video-card.mobile-video iframe'),document.querySelector('.video-card.right iframe')];
   const defaultHero = allHeroCards.map(frame => frame?.getAttribute('src') || '');
-  function setFrame(frame, url, title) {
+  function setFrame(frame, url, title, thumbnailUrl = '') {
     if (!frame) return;
     const src = ytEmbed(url, 0, 1);
     if (!src) return;
+    const card = frame.closest('.video-card');
+    let thumb = card?.querySelector('.hero-thumbnail');
+    if (thumbnailUrl && card) {
+      if (!thumb) { thumb = document.createElement('img'); thumb.className = 'hero-thumbnail'; thumb.alt = ''; thumb.setAttribute('aria-hidden','true'); card.insertBefore(thumb, frame); }
+      thumb.src = thumbnailUrl;
+      thumb.classList.remove('is-hidden');
+      frame.addEventListener('load', () => window.setTimeout(() => thumb?.classList.add('is-hidden'), 1800), {once:true});
+    } else if (thumb) { thumb.remove(); }
     frame.src = src;
     frame.title = title || 'Video preview';
     frame.setAttribute('tabindex','-1');
@@ -471,13 +495,13 @@ initializeLanguage();
       const isMobile = window.matchMedia('(max-width: 600px)').matches;
       if (isMobile && mobile.length) {
         const order = [pick(mobile,0),pick(mobile,1),pick(mobile,2)];
-        if (order[0]?.url) setFrame(allHeroCards[0],order[0].url,order[0].title);
-        if (order[1]?.url) setFrame(allHeroCards[1],order[1].url,order[1].title);
-        if (order[2]?.url) setFrame(allHeroCards[2],order[2].url,order[2].title);
+        if (order[0]?.url) setFrame(allHeroCards[0],order[0].url,order[0].title,order[0].thumbnailUrl);
+        if (order[1]?.url) setFrame(allHeroCards[1],order[1].url,order[1].title,order[1].thumbnailUrl);
+        if (order[2]?.url) setFrame(allHeroCards[2],order[2].url,order[2].title,order[2].thumbnailUrl);
       } else if (desktop.length) {
         const first = desktop[0]; const second = desktop[1] || desktop[0];
-        if (first?.url) setFrame(allHeroCards[0],first.url,first.title);
-        if (second?.url) setFrame(allHeroCards[2],second.url,second.title);
+        if (first?.url) setFrame(allHeroCards[0],first.url,first.title,first.thumbnailUrl);
+        if (second?.url) setFrame(allHeroCards[2],second.url,second.title,second.thumbnailUrl);
       }
     };
     update();
