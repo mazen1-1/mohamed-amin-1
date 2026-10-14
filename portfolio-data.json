@@ -9,8 +9,29 @@
       "showMobile": true
     }
   ],
-  "sections": [],
-  "items": [],
+  "sections": [
+    {
+      "id": "section-mv8cwqak-6ee6z",
+      "title": "Reels editing",
+      "titleAr": "مونتاج الريلز",
+      "order": 2
+    }
+  ],
+  "items": [
+    {
+      "id": "work-mv8cwrub-5e0jc",
+      "type": "video",
+      "title": "ريلز المدرس بابا عبده",
+      "sectionId": "section-mv8cwqak-6ee6z",
+      "videoUrl": "https://youtube.com/shorts/q2HB3EeRpFM",
+      "thumbnailUrl": "",
+      "imageUrl": "",
+      "description": "",
+      "orientation": "vertical",
+      "visible": true,
+      "showOnHome": true
+    }
+  ],
   "reviews": [],
-  "updatedAt": "2026-10-14T16:46:54.323Z"
+  "updatedAt": "2026-10-14T17:01:34.369Z"
 }
