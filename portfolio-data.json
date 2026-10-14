@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-14T22:59:21.825Z",
+  "updatedAt": "2026-10-14T23:02:25.977Z",
   "heroVideos": [
     {
       "id": "hero-mv8pns2c-w37ub",
@@ -9,7 +9,39 @@
       "showMobile": true
     }
   ],
-  "sections": [],
-  "items": [],
-  "reviews": []
+  "sections": [
+    {
+      "id": "section-mv8prm88-8qqei",
+      "title": "reels",
+      "titleAr": "مونتاج الريلز",
+      "order": 1
+    }
+  ],
+  "items": [
+    {
+      "id": "work-mv8pt73k-bopf6",
+      "type": "video",
+      "title": "كورس قدرات بابا عبده",
+      "sectionId": "section-mv8prm88-8qqei",
+      "visible": true,
+      "storage": "r2",
+      "mediaType": "r2",
+      "videoUrl": "/api/media/video-1204ddb8-72b4-4b3f-9316-e6680463237b.mp4",
+      "thumbnailUrl": "",
+      "orientation": "vertical",
+      "showOnHome": true
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-mv8pqlbr-20yl4",
+      "mode": "image",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "",
+      "label": "",
+      "visible": true
+    }
+  ]
 }
