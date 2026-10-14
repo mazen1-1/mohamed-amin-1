@@ -295,7 +295,7 @@ html, body { max-width:100%; overflow-x:clip; }
 .work-marquee:before,.work-marquee:after{content:"";position:absolute;z-index:3;top:0;bottom:0;width:7%;pointer-events:none;filter:blur(12px)}
 .work-marquee:before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}.work-marquee:after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
 .work-track{direction:ltr;display:flex;width:max-content;gap:16px;animation:workMarquee 26s linear infinite;will-change:transform;padding:0 8px}
-.work-marquee:hover .work-track{animation-play-state:paused}
+.work-marquee:hover .work-track{animation-play-state:running}
 .work-marquee-card{position:relative;display:block;flex:0 0 auto;width:clamp(125px,15vw,188px);aspect-ratio:9/16;overflow:hidden;border-radius:14px;border:1px solid #c084fc55;background:#17121f;box-shadow:0 9px 30px #0008;transform:translateZ(0)}
 .work-marquee-card.horizontal{width:clamp(210px,28vw,340px);aspect-ratio:16/9;align-self:center}
 .work-marquee-card .marquee-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:blur(.35px);transition:transform .35s,filter .35s}.work-marquee-card .marquee-iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;opacity:0;transition:opacity .35s;background:transparent}.work-marquee-card .marquee-iframe.loaded{opacity:1}
@@ -343,6 +343,11 @@ html, body { max-width:100%; overflow-x:clip; }
 .trust-title-wrap .section-rule{width:100%;margin:0 auto!important}
 @media(max-width:600px){.info-wrap .trust-title-wrap{margin-bottom:17px}.info-wrap .trust-title-wrap h2{font-size:21px!important;line-height:1.45}}
 
+
+@keyframes workMarquee{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.work-marquee-card .marquee-thumb{filter:blur(.25px)}
+.work-marquee:hover .work-track{animation-play-state:running}
+
 /* Current refinements: clearer background texture, larger readable stats, and dedicated reviews page CTA. */
 body:before{opacity:.13;background-image:radial-gradient(rgba(255,255,255,.4) .78px,transparent .82px);background-size:5px 5px}
 .info-wrap .trust-title-wrap h2{font-size:clamp(29px,2.5vw,36px)!important;line-height:1.35}
@@ -382,25 +387,33 @@ body:before{opacity:.13;background-image:radial-gradient(rgba(255,255,255,.4) .7
 }
 
 
-/* Hero preview carousel: static images only, scrolling continuously from right to left. */
-.hero{padding:46px 0 0;overflow:visible}
-.hero-stage.hero-stage-carousel{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;max-width:none!important;width:100%;margin:0 auto}
-.hero-stage.hero-stage-carousel:before{left:16%;right:16%;top:0;height:300px}
-.hero-stage-carousel .hero-copy{width:100%;max-width:100%;padding:0 14px;text-align:center;direction:inherit;z-index:2}
-.hero-stage-carousel .hero-title{font-size:clamp(44px,6vw,76px);line-height:1.1}
-.hero-stage-carousel .hero-subtitle{font-size:clamp(14px,1.7vw,18px)}
-.hero-stage-carousel .hero-copy .button{margin-inline:auto}
-.hero-preview-marquee{position:relative;left:50%;transform:translateX(-50%);width:100vw;max-width:none;margin-top:44px;padding:12px 0 35px;overflow:hidden;isolation:isolate;mask-image:linear-gradient(90deg,transparent 0%,#000 6%,#000 94%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 6%,#000 94%,transparent 100%)}
-.hero-preview-marquee:before,.hero-preview-marquee:after{content:"";position:absolute;z-index:2;top:0;bottom:0;width:7%;pointer-events:none;filter:blur(12px)}
-.hero-preview-marquee:before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
-.hero-preview-marquee:after{right:0;background:linear-gradient(270deg,var(--bg),transparent)}
-.hero-preview-track{display:flex;align-items:center;gap:clamp(13px,2vw,25px);width:max-content;will-change:transform;direction:ltr;animation:heroPreviewFlow 30s linear infinite}
-.hero-preview-card{position:relative;flex:0 0 clamp(132px,14vw,192px);aspect-ratio:9/16;overflow:hidden;border:1px solid rgba(228,190,255,.5);border-radius:16px;background:linear-gradient(145deg,#3a1a52,#110d19 70%);box-shadow:0 12px 34px #0009,0 0 25px #a855f733;transform:translateZ(0)}
-.hero-preview-card:nth-child(4n+1){transform:translateY(6px) rotate(-2.3deg)}
-.hero-preview-card:nth-child(4n+3){transform:translateY(-5px) rotate(2deg)}
-.hero-preview-card img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.hero-preview-placeholder{position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#e879f966,transparent 38%),linear-gradient(145deg,#411b5d,#15101d 62%,#09070d)}
-@keyframes heroPreviewFlow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* Hero: keep the two live muted previews beside the copy (three on phones). */
+.hero{padding:36px 0 0;overflow:visible}
+.hero-stage{display:grid!important;grid-template-columns:minmax(125px,190px) minmax(0,1fr) minmax(125px,190px)!important;grid-template-areas:"left copy right";align-items:center;gap:clamp(20px,4.2vw,58px);max-width:none;width:100%;margin:0 auto}
+.hero-stage:before{left:16%;right:16%;top:18px;height:270px}
+.hero-copy{grid-area:copy;width:auto;max-width:none;padding:0;text-align:center;direction:inherit;z-index:2}
+.video-card.left{grid-area:left}.video-card.right{grid-area:right}
+.video-card .hero-no-controls{position:absolute;inset:0;z-index:5;display:block;background:transparent;pointer-events:auto}
+.video-card iframe,.video-card video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#120d19;object-fit:cover;pointer-events:none}
+.video-card .hero-fallback-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:850px){.hero-stage{grid-template-columns:minmax(95px,145px) minmax(0,1fr) minmax(95px,145px)!important;gap:14px}}
+@media(max-width:600px){
+ .hero{padding-top:29px}
+ .hero-stage{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-areas:"copy copy copy" "left center right";align-items:start;gap:17px 8px}
+ .hero-stage:before{left:0;right:0;top:58px;height:330px}
+ .hero-copy{grid-area:copy;width:100%;padding:0 2px}
+ .video-card.left{grid-area:left;max-width:none;transform:perspective(650px) rotateY(8deg) rotateZ(-4deg)}
+ .video-card.right{grid-area:right;max-width:none;transform:perspective(650px) rotateY(-8deg) rotateZ(4deg)}
+ .video-card.mobile-video{display:block;grid-area:center;max-width:none;transform:none;border-radius:9px}
+ .video-card.left:hover{transform:perspective(650px) rotateY(8deg) rotateZ(-4deg)}
+ .video-card.right:hover{transform:perspective(650px) rotateY(-8deg) rotateZ(4deg)}
+ .video-card.mobile-video:hover{transform:none}
+ .hero-copy .eyebrow{font-size:10px;letter-spacing:.1em;margin-bottom:9px}
+ .hero-copy .hero-title{font-size:clamp(34px,9.2vw,45px)!important;line-height:1.12}
+ .hero-copy .hero-subtitle{font-size:13px;line-height:1.6;margin:10px 0 14px}
+ .hero-copy .button{font-size:9px;gap:8px;padding:7px 8px 7px 12px}
+ .hero-copy .arrow{width:19px;height:19px;font-size:13px;flex-basis:19px}
+}
 /* Home work preview strips also remain thumbnail-only; videos play only on the dedicated work page. */
 .work-marquee-card{cursor:default}
 .work-marquee-card:after{display:none!important}
@@ -428,9 +441,11 @@ body:before{opacity:.13;background-image:radial-gradient(rgba(255,255,255,.4) .7
 <div class="site" id="site">
 <nav><a class="logo" href="#home" aria-label="Mohamed Amin - Home"><img src="logo-M.A01.png" alt="Mohamed Amin" class="logo-mark"></a><div class="nav-right"><div class="links"><a href="#home" data-en="Home" data-ar="الرئيسية">Home</a><a href="#about" data-en="About Me" data-ar="من أنا">About Me</a><a href="#work" data-en="My Work" data-ar="أعمالي">My Work</a><a href="#fields" data-en="Fields" data-ar="المجالات">Fields</a><a href="reviews.html" data-en="Reviews" data-ar="آراء العملاء">Reviews</a><a href="#contact" data-en="Contact" data-ar="تواصل">Contact</a></div><button class="lang-btn" id="langToggle" type="button">العربية</button></div></nav>
 <main id="home">
-<section class="hero"><div class="hero-stage hero-stage-carousel">
+<section class="hero"><div class="hero-stage" id="heroStage">
+<div class="video-card left" id="heroVideoLeft" aria-label="Muted video preview"></div>
 <div class="hero-copy"><div class="eyebrow" data-en="Hi, I'm" data-ar="يا هلا، أنا">Hi, I'm</div><h1 class="hero-title" data-en="Mohamed Amin" data-ar="محمد أمين">Mohamed Amin</h1><p class="hero-subtitle" data-en="Video Editor | Reels &amp; YouTube" data-ar="Video Editor | Reels &amp; YouTube">Video Editor | Reels &amp; YouTube</p><a class="button" href="work.html"><span data-en="VIEW MY WORK" data-ar="شاهد أعمالي">VIEW MY WORK</span><span class="arrow">↗</span></a></div>
-<div class="hero-preview-marquee" id="heroPreviewMarquee" aria-label="Featured work previews"><div class="hero-preview-track" id="heroPreviewTrack" aria-hidden="true"></div></div>
+<div class="video-card right" id="heroVideoRight" aria-label="Muted video preview"></div>
+<div class="video-card mobile-video" id="heroVideoMobile" aria-label="Muted video preview"></div>
 </div></section>
 <section class="info-wrap" aria-label="Statistics"><div class="panel"><div class="trust-title-wrap"><h2 class="section-heading" style="font-size:25px;text-align:center;margin:0 0 8px" data-en="Why Do Clients Trust Me?" data-ar="لماذا يثق بي عملائي؟">Why Do Clients Trust Me?</h2><hr class="section-rule" style="margin:0 auto 25px"></div><div class="stats">
 <div class="stat"><strong>0</strong><small data-en="Projects Delivered Late" data-ar="مشروع تأخر عن موعد التسليم">Projects Delivered Late</small></div><div class="stat"><strong dir="ltr">24<em class="accent">h</em></strong><small data-en="Available for Feedback" data-ar="متاح للرد على الملاحظات">Available for Feedback</small></div><div class="stat"><strong dir="ltr">70<em class="accent">%</em></strong><small data-en="Repeat Clients" data-ar="عملاء يكررون التعامل">Repeat Clients</small></div><div class="stat"><strong dir="ltr">24<em class="accent">h</em></strong><small data-en="Average Turnaround" data-ar="متوسط مدة التسليم">Average Turnaround</small></div>
@@ -553,41 +568,47 @@ initializeLanguage();
     const id = ytId(value || '');
     return id ? `https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : '';
   }
-  function renderHeroPreviews(data) {
-    const track = document.getElementById('heroPreviewTrack');
-    if (!track) return;
-    const isMobile = window.matchMedia('(max-width: 600px)').matches;
-    const heroes = Array.isArray(data.heroVideos) ? data.heroVideos : [];
-    const workItems = (Array.isArray(data.items) ? data.items : []).filter(item => item.visible !== false && item.type === 'video' && item.showOnHome !== false);
-    let choices = heroes.filter(video => isMobile ? video.showMobile !== false : video.showDesktop !== false);
-    let cards = choices.map((video, index) => {
-      const workFallback = workItems[index % Math.max(workItems.length, 1)] || null;
-      const thumb = video.thumbnailUrl || youtubeThumbnail(video.url) || (workFallback && (workFallback.thumbnailUrl || youtubeThumbnail(workFallback.videoUrl))) || '';
-      return { title: video.title || '', thumbnailUrl: thumb };
-    });
-    if (!cards.length && !heroes.length && workItems.length) {
-      cards = workItems.map(item => ({ title:item.title || '', thumbnailUrl:item.thumbnailUrl || youtubeThumbnail(item.videoUrl) || item.imageUrl || '' }));
+  function heroPlayerMarkup(value, title, thumbnail='') {
+    const raw = String(value || '').trim();
+    const id = ytId(raw);
+    let player = '';
+    if (id) {
+      const qs = new URLSearchParams({autoplay:'1',mute:'1',controls:'0',playsinline:'1',rel:'0',iv_load_policy:'3',disablekb:'1',fs:'0',loop:'1',playlist:id,modestbranding:'1'});
+      player = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${qs}" title="${esc(title || 'Muted hero preview')}" loading="eager" allow="autoplay; encrypted-media" tabindex="-1" aria-hidden="true"></iframe>`;
+    } else if (/\.(mp4|m4v|webm|ogv)(?:[?#].*)?$/i.test(raw) || /\/api\/media\//i.test(raw)) {
+      player = `<video src="${esc(raw)}" autoplay muted loop playsinline preload="auto" disablepictureinpicture${thumbnail ? ` poster="${esc(thumbnail)}"`:''} aria-label="${esc(title || 'Muted hero preview')}"></video>`;
+    } else if (/^https?:\/\//i.test(raw) && /videas\.com/i.test(raw)) {
+      player = `<iframe src="${esc(raw)}" title="${esc(title || 'Muted hero preview')}" loading="eager" allow="autoplay; encrypted-media" tabindex="-1" aria-hidden="true"></iframe>`;
+    } else if (thumbnail) {
+      player = `<img class="hero-fallback-thumb" src="${esc(thumbnail)}" alt="" draggable="false">`;
     }
-    if (!cards.length && !heroes.length && !workItems.length) cards = [{title:'', thumbnailUrl:'https://img.youtube.com/vi/a7r3u3nmCsQ/hqdefault.jpg'}];
-    const marquee = document.getElementById('heroPreviewMarquee');
-    if (!cards.length) { track.innerHTML=''; if (marquee) marquee.hidden=true; return; }
-    if (marquee) marquee.hidden=false;
-    // Fill the viewport with enough items to keep the repeating strip seamless.
-    const seed = cards.slice();
-    while (cards.length < 7) cards = cards.concat(seed);
-    cards = cards.slice(0, 8);
-    const renderSet = (items, duplicate=false) => items.map(item => `<div class="hero-preview-card" ${duplicate ? 'aria-hidden="true"' : ''}>${item.thumbnailUrl ? `<img src="${esc(item.thumbnailUrl)}" alt="" loading="${duplicate ? 'lazy':'eager'}" draggable="false" referrerpolicy="no-referrer">` : '<span class="hero-preview-placeholder"></span>'}</div>`).join('');
-    track.innerHTML = renderSet(cards) + renderSet(cards, true);
-    track.style.animationDuration = `${Math.max(25, Math.min(42, cards.length * 3.8))}s`;
+    if (!player && thumbnail) player = `<img class="hero-fallback-thumb" src="${esc(thumbnail)}" alt="" draggable="false">`;
+    return `${player}<span class="hero-no-controls" aria-hidden="true"></span>`;
   }
-  let lastHeroMobileState = window.matchMedia('(max-width: 600px)').matches;
-  window.addEventListener('resize', () => {
-    const nowMobile = window.matchMedia('(max-width: 600px)').matches;
-    if (nowMobile !== lastHeroMobileState) {
-      lastHeroMobileState = nowMobile;
-      loadData().then(renderHeroPreviews);
-    }
-  }, {passive:true});
+  function renderHeroPreviews(data) {
+    const stage = document.getElementById('heroStage');
+    if (!stage) return;
+    const heroes = Array.isArray(data.heroVideos) ? data.heroVideos : [];
+    const choose = (mobile) => {
+      const filtered = heroes.filter(v => mobile ? v.showMobile !== false : v.showDesktop !== false);
+      return filtered.length ? filtered : heroes;
+    };
+    const desktop = choose(false);
+    const mobile = choose(true);
+    const fallback = {title:'',url:'https://www.youtube.com/watch?v=a7r3u3nmCsQ',thumbnailUrl:''};
+    const left = desktop[0] || heroes[0] || fallback;
+    const right = desktop[1] || desktop[0] || heroes[0] || fallback;
+    const center = mobile[2] || mobile[0] || heroes[0] || fallback;
+    const render = (id, item) => {
+      const card = document.getElementById(id);
+      if (!card) return;
+      card.innerHTML = heroPlayerMarkup(item.url || item.videoUrl || '', item.title || '', item.thumbnailUrl || '');
+      card.setAttribute('aria-label', item.title || localText('Muted video preview','معاينة فيديو صامتة'));
+    };
+    render('heroVideoLeft', left);
+    render('heroVideoRight', right);
+    render('heroVideoMobile', center);
+  }
   function openMedia(item) {
     const modal = document.getElementById('portfolioMediaModal');
     if (!modal) return;
