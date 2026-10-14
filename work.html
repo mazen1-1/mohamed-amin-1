@@ -39,6 +39,27 @@
 .r2-player-seek::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:#fff;border:2px solid #c084fc;box-shadow:0 0 8px #a855f788}
 .r2-player-seek::-moz-range-thumb{width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid #c084fc}
 @media(max-width:620px){.r2-player{width:96vw}.r2-player.vertical{width:min(430px,86vw)}.r2-player-stage,.r2-player video{max-height:72vh}.r2-player-toggle{width:52px;height:52px}}
+
+/* Works page: smaller videos, natural-size photos packed together (masonry). */
+.portfolio-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:13px}
+.work-card-image video{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.work-card .card-meta{padding:10px 11px 12px}.card-meta h3{font-size:12px;margin:0}
+.play-button{width:38px;height:38px;font-size:12px}
+.photo-grid{column-width:200px;column-gap:13px;margin-top:20px}
+.portfolio-grid+.photo-grid{margin-top:26px}
+.photo-card{break-inside:avoid;-webkit-column-break-inside:avoid;display:block;margin:0 0 13px;overflow:hidden;border:1px solid #ffffff1b;border-radius:12px;background:linear-gradient(145deg,#1a1422,#100e15);box-shadow:0 8px 22px #0005;cursor:pointer;transition:transform .22s,border-color .22s}
+.photo-card:hover{transform:translateY(-3px);border-color:#c084fc77}
+.photo-card img{display:block;width:100%;height:auto}
+.photo-card h3{font-size:12px;margin:0;padding:9px 11px 11px;overflow-wrap:anywhere}
+.media-modal.image-mode{align-items:flex-start;overflow-y:auto}
+.media-modal.image-mode .modal-box{max-height:none;flex-direction:column-reverse;margin:34px auto}
+.media-modal.image-mode .close{position:fixed;top:14px;right:14px}
+.media-modal.image-mode .modal-image{max-width:100%;max-height:none;width:auto;height:auto}
+.media-modal.image-mode .modal-details{padding:0 8px}
+@media(max-width:1280px){.portfolio-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:1000px){.portfolio-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:880px){.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.photo-grid{column-width:auto;column-count:2;column-gap:10px}.photo-card{margin-bottom:10px}.media-modal.image-mode{padding:8px}}
 </style>
 </head>
 <body><div class="shell"><nav><a class="brand" href="index.html" aria-label="Home"><img src="logo-M.A01.png" alt="Mohamed Amin"></a><div class="nav-links"><a href="index.html#home" data-en="Home" data-ar="الرئيسية">Home</a><a href="index.html#about" data-en="About Me" data-ar="من أنا">About Me</a><a href="reviews.html" data-en="Reviews" data-ar="آراء العملاء">Reviews</a><a href="index.html#contact" data-en="Contact" data-ar="تواصل">Contact</a><button class="lang" id="langToggle">العربية</button></div></nav>
@@ -49,27 +70,57 @@
 (() => {
  const arabicCodes=new Set(['DZ','BH','KM','DJ','EG','IQ','JO','KW','LB','LY','MR','MA','OM','PS','QA','SA','SO','SD','SY','TN','AE','YE']);
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const extractUrl=value=>{const raw=String(value||'').trim();const embedded=raw.match(/<iframe[^>]+src=[\"']([^\"']+)/i);return embedded?embedded[1]:raw};
- const idFrom=url=>{try{const u=new URL(extractUrl(url),location.href);const host=u.hostname.toLowerCase();if(host==='youtu.be'||host.endsWith('.youtu.be'))return u.pathname.split('/').filter(Boolean)[0]||'';if(host==='youtube.com'||host.endsWith('.youtube.com')||host==='youtube-nocookie.com'||host.endsWith('.youtube-nocookie.com')){if(u.searchParams.get('v'))return u.searchParams.get('v');const m=u.pathname.match(/\/(?:embed|shorts|live)\/([^/?]+)/);return m?m[1]:''}return ''}catch{return ''}};
- const embed=(value)=>{
-   const raw=extractUrl(value); const id=idFrom(raw);
-   if(id)return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=0&controls=1&playsinline=1&rel=0`;
-   try {
-     const u=new URL(raw);
-     if(!/(^|\.)videas\.com$/i.test(u.hostname) || !/\/embed\//i.test(u.pathname))return '';
-     const options={auto_play:'0',muted:'0',loop:'0',controls:'1',pin_controls:'0',show_logo:'0',show_homepage_info:'0',show_homepage_play_button:'1',show_info_button:'0',show_eco_mode:'0',show_chapters:'0',show_ads:'0',enable_pip:'0',enable_fullscreen:'1',theme:'dark',primary_color:'a855f7'};
-     Object.entries(options).forEach(([key,val])=>u.searchParams.set(key,val));
-     return u.toString();
-   } catch { return ''; }
- };
- const modal=document.getElementById('mediaModal');
- function isR2Media(item){const url=String(item.videoUrl||'');return item.storage==='r2'||item.mediaType==='r2'||/^\/api\/media\/video-[0-9a-f-]{36}\./i.test(url);}
+  const modal=document.getElementById('mediaModal');
  function setupR2Player(){const player=modal.querySelector('.r2-player');if(!player)return;const video=player.querySelector('video');const toggle=player.querySelector('.r2-player-toggle');const seek=player.querySelector('.r2-player-seek');const current=player.querySelector('.r2-current');const duration=player.querySelector('.r2-duration');const fmt=value=>{if(!Number.isFinite(value)||value<0)return '0:00';const total=Math.floor(value);return `${Math.floor(total/60)}:${String(total%60).padStart(2,'0')}`};const sync=()=>{const paused=video.paused||video.ended;player.classList.toggle('is-paused',paused);toggle.textContent=paused?'▶':'Ⅱ';toggle.setAttribute('aria-label',paused?'تشغيل الفيديو':'إيقاف مؤقت');const max=Number.isFinite(video.duration)&&video.duration>0?video.duration:0;seek.value=max?String(Math.round(video.currentTime/max*1000)):'0';seek.style.setProperty('--progress',`${max?video.currentTime/max*100:0}%`);current.textContent=fmt(video.currentTime);duration.textContent=fmt(max);};const togglePlayback=()=>{if(video.paused||video.ended){if(video.ended)video.currentTime=0;video.play().catch(()=>sync());}else video.pause();};toggle.addEventListener('click',event=>{event.stopPropagation();togglePlayback()});video.addEventListener('click',togglePlayback);video.addEventListener('play',sync);video.addEventListener('pause',sync);video.addEventListener('ended',sync);video.addEventListener('timeupdate',sync);video.addEventListener('loadedmetadata',sync);video.addEventListener('durationchange',sync);seek.addEventListener('input',()=>{if(Number.isFinite(video.duration)&&video.duration>0){video.currentTime=(Number(seek.value)/1000)*video.duration;seek.style.setProperty('--progress',`${seek.value/10}%`)}});sync();video.play().catch(()=>sync());}
- function openItem(item){const stage=modal.querySelector('.modal-stage'),details=modal.querySelector('.modal-details');if(item.type==='video'){if(isR2Media(item)){const poster=item.thumbnailUrl?` poster="${esc(item.thumbnailUrl)}"`:'';stage.innerHTML=`<div class="r2-player ${item.orientation==='vertical'?'vertical':''} is-paused"><div class="r2-player-stage"><video src="${esc(item.videoUrl)}"${poster} playsinline preload="metadata" aria-label="${esc(item.title)}"></video><button class="r2-player-toggle" type="button" aria-label="تشغيل الفيديو">▶</button></div><div class="r2-player-timeline"><time class="r2-current">0:00</time><input class="r2-player-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="موضع الفيديو"><time class="r2-duration">0:00</time></div></div>`;}else{const src=embed(item.videoUrl);stage.innerHTML=src?`<iframe class="modal-frame ${item.orientation==='vertical'?'vertical':''}" src="${esc(src)}" title="${esc(item.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`:'';}}else{stage.innerHTML=item.imageUrl?`<img class="modal-image" src="${esc(item.imageUrl)}" alt="${esc(item.title)}">`:'';}details.innerHTML=`<h2>${esc(item.title||'')}</h2>${item.description?`<p>${esc(item.description)}</p>`:''}`;modal.classList.add('open');modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';if(item.type==='video'&&isR2Media(item))setupR2Player();}
+ function openItem(item){
+  const stage=modal.querySelector('.modal-stage'),details=modal.querySelector('.modal-details');
+  const isVideo=item.type==='video';
+  modal.classList.toggle('image-mode',!isVideo);
+  if(isVideo){
+   const poster=item.thumbnailUrl?` poster="${esc(item.thumbnailUrl)}"`:'';
+   stage.innerHTML=`<div class="r2-player ${item.orientation==='horizontal'?'':'vertical'} is-paused"><div class="r2-player-stage"><video src="${esc(item.videoUrl)}"${poster} playsinline preload="metadata" aria-label="${esc(item.title)}"></video><button class="r2-player-toggle" type="button" aria-label="تشغيل الفيديو">▶</button></div><div class="r2-player-timeline"><time class="r2-current">0:00</time><input class="r2-player-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="موضع الفيديو"><time class="r2-duration">0:00</time></div></div>`;
+   details.innerHTML=`<h2>${esc(item.title||'')}</h2>`;
+  }else{
+   stage.innerHTML=item.imageUrl?`<img class="modal-image" src="${esc(item.imageUrl)}" alt="${esc(item.title)}">`:'';
+   details.innerHTML=`<h2>${esc(item.title||'')}</h2>${item.description?`<p>${esc(item.description)}</p>`:''}`;
+  }
+  modal.classList.add('open');modal.scrollTop=0;modal.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';
+  if(isVideo)setupR2Player();
+ }
  function close(){modal.classList.remove('open');modal.setAttribute('aria-hidden','true');modal.querySelector('.modal-stage').innerHTML='';document.body.style.overflow='';}
  modal.querySelector('.close').addEventListener('click',close);modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
- function render(data){const root=document.getElementById('portfolioSections');const visible=(data.items||[]).filter(item=>item.visible!==false);const sections=(data.sections||[]).slice().sort((a,b)=>(a.order??0)-(b.order??0));let markup='';for(const section of sections){const items=visible.filter(item=>String(item.sectionId||'')===String(section.id));if(!items.length)continue;markup+=`<section class="category" id="section-${esc(section.id)}"><div class="category-title"><h2>${esc(document.documentElement.lang==='ar'?(section.titleAr||section.title||''): (section.title||section.titleAr||''))}</h2><span>${String(items.length).padStart(2,'0')} ${document.documentElement.lang==='ar'?'مشروعات':'PROJECTS'}</span></div><div class="portfolio-grid">${items.map(item=>card(item)).join('')}</div></section>`;}const uncat=visible.filter(item=>!sections.some(s=>String(s.id)===String(item.sectionId||'')));if(uncat.length)markup+=`<section class="category"><div class="category-title"><h2>${document.documentElement.lang==='ar'?'أعمال أخرى':'Other Work'}</h2><span>${String(uncat.length).padStart(2,'0')}</span></div><div class="portfolio-grid">${uncat.map(card).join('')}</div></section>`;root.innerHTML=markup||`<div class="empty">${document.documentElement.lang==='ar'?'لا توجد أعمال منشورة بعد. ستظهر الأعمال هنا عند إضافتها من لوحة التحكم.':'No portfolio items have been published yet. Add work using the admin panel and it will appear here.'}</div>`;root.querySelectorAll('[data-item-id]').forEach(el=>el.addEventListener('click',()=>{const item=visible.find(x=>String(x.id)===el.dataset.itemId);if(item)openItem(item)}));if(location.hash){const key=decodeURIComponent(location.hash.slice(1));const item=visible.find(x=>String(x.id)===key);if(item)setTimeout(()=>openItem(item),250);else if(key.startsWith('section-'))document.getElementById(key)?.scrollIntoView();}}
- function card(item){const vertical=item.type==='video'&&item.orientation!=='horizontal';const id=idFrom(item.videoUrl||'');const thumb=item.thumbnailUrl||(id?`https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`:'');const cls=`work-card ${item.orientation==='horizontal'?'horizontal':''} ${item.type==='image'?'image-card':''}`;const img=item.type==='image'?item.imageUrl:thumb;return `<article class="${cls}" data-item-id="${esc(item.id)}" role="button" tabindex="0"><div class="work-card-image">${img?`<img src="${esc(img)}" alt="${esc(item.title)}" loading="lazy">`:''}${item.type==='video'?'<span class="play-button" aria-hidden="true">▶</span>':''}</div><div class="card-meta"><h3>${esc(item.title||'Untitled')}</h3>${item.description?`<p>${esc(item.description)}</p>`:''}</div></article>`;}
+ function render(data){
+  const root=document.getElementById('portfolioSections');
+  const ar=document.documentElement.lang==='ar';
+  const visible=(data.items||[]).filter(item=>item.visible!==false&&(item.type==='image'?item.imageUrl:item.videoUrl));
+  const sections=(data.sections||[]).slice().sort((a,b)=>(a.order??0)-(b.order??0));
+  const block=(heading,items)=>{
+   const videos=items.filter(i=>i.type!=='image'),photos=items.filter(i=>i.type==='image');
+   return `<section class="category"><div class="category-title"><h2>${esc(heading)}</h2><span>${String(items.length).padStart(2,'0')} ${ar?'مشروعات':'PROJECTS'}</span></div>${videos.length?`<div class="portfolio-grid">${videos.map(card).join('')}</div>`:''}${photos.length?`<div class="photo-grid">${photos.map(card).join('')}</div>`:''}</section>`;
+  };
+  let markup='';
+  for(const section of sections){
+   const items=visible.filter(item=>String(item.sectionId||'')===String(section.id));
+   if(!items.length)continue;
+   markup+=block(ar?(section.titleAr||section.title||''):(section.title||section.titleAr||''),items);
+  }
+  const uncat=visible.filter(item=>!sections.some(s=>String(s.id)===String(item.sectionId||'')));
+  if(uncat.length)markup+=block(ar?'أعمال أخرى':'Other Work',uncat);
+  root.innerHTML=markup||`<div class="empty">${ar?'لا توجد أعمال منشورة بعد. ستظهر الأعمال هنا عند إضافتها من لوحة التحكم.':'No portfolio items have been published yet. Add work using the admin panel and it will appear here.'}</div>`;
+  root.querySelectorAll('[data-item-id]').forEach(el=>{
+   const open=()=>{const item=visible.find(x=>String(x.id)===el.dataset.itemId);if(item)openItem(item)};
+   el.addEventListener('click',open);
+   el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+  });
+  if(location.hash){const key=decodeURIComponent(location.hash.slice(1));const item=visible.find(x=>String(x.id)===key);if(item)setTimeout(()=>openItem(item),250);}
+ }
+ function card(item){
+  if(item.type==='image'){
+   return `<article class="photo-card" data-item-id="${esc(item.id)}" role="button" tabindex="0"><img src="${esc(item.imageUrl)}" alt="${esc(item.title)}" loading="lazy"><h3>${esc(item.title||'')}</h3></article>`;
+  }
+  const visual=item.thumbnailUrl?`<img src="${esc(item.thumbnailUrl)}" alt="${esc(item.title)}" loading="lazy">`:`<video src="${esc(item.videoUrl)}#t=0.1" muted playsinline preload="metadata" aria-hidden="true"></video>`;
+  return `<article class="work-card ${item.orientation==='horizontal'?'horizontal':''}" data-item-id="${esc(item.id)}" role="button" tabindex="0"><div class="work-card-image">${visual}<span class="play-button" aria-hidden="true">▶</span></div><div class="card-meta"><h3>${esc(item.title||'')}</h3></div></article>`;
+ }
  function setLang(lang){const ar=lang==='ar';document.documentElement.lang=lang;document.documentElement.dir=ar?'rtl':'ltr';document.body.classList.toggle('arabic',ar);document.querySelectorAll('[data-en][data-ar]').forEach(el=>el.innerHTML=ar?el.dataset.ar:el.dataset.en);document.getElementById('langToggle').textContent=ar?'English':'العربية';try{localStorage.setItem('mohamedAminLanguagePreference',lang)}catch{}}
  async function init(){document.getElementById('year').textContent=new Date().getFullYear();let lang='en';try{lang=localStorage.getItem('mohamedAminLanguagePreference')||''}catch{}if(!['ar','en'].includes(lang)){try{const r=await fetch('https://ipapi.co/json/',{cache:'no-store'});const loc=await r.json();lang=arabicCodes.has(String(loc.country_code||'').toUpperCase())?'ar':'en'}catch{lang=(navigator.language||'').startsWith('ar')?'ar':'en'}}setLang(lang);document.getElementById('langToggle').addEventListener('click',()=>setLang(document.documentElement.lang==='en'?'ar':'en'));let data={sections:[],items:[]};try{const r=await fetch(`portfolio-data.json?v=${Date.now()}`,{cache:'no-store'});if(r.ok)data=await r.json()}catch{}render({...{sections:[],items:[]},...data});}
  init();

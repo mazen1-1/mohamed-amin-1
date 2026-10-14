@@ -418,7 +418,7 @@ body:before{opacity:.13;background-image:radial-gradient(rgba(255,255,255,.4) .7
 .work-marquee-card{cursor:default}
 .work-marquee-card:after{display:none!important}
 .work-marquee-card .marquee-iframe{display:none!important}
-.work-marquee-card .marquee-thumb{opacity:1!important;filter:none!important}
+.work-marquee-card .marquee-thumb{opacity:1!important;filter:none!important;pointer-events:none}
 .work-marquee-card .marquee-placeholder{position:absolute;inset:0;display:block;background:radial-gradient(ellipse at 28% 18%,#e879f966,transparent 40%),linear-gradient(145deg,#411b5d,#15101d 62%,#09070d)}
 @media(max-width:600px){
  .hero{padding-top:31px}
@@ -542,84 +542,45 @@ initializeLanguage();
   const isArabic = () => document.documentElement.lang === 'ar';
   const localText = (en, ar) => isArabic() ? ar : en;
   const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  function ytId(value) {
-    try {
-      const raw = String(value || '').trim();
-      const iframe = raw.match(/<iframe[^>]+src=[\"']([^\"']+)/i);
-      const url = new URL(iframe ? iframe[1] : raw, location.href);
-      const host = url.hostname.toLowerCase();
-      if (host === 'youtu.be' || host.endsWith('.youtu.be')) return url.pathname.split('/').filter(Boolean)[0] || '';
-      if (host === 'youtube.com' || host.endsWith('.youtube.com') || host === 'youtube-nocookie.com' || host.endsWith('.youtube-nocookie.com')) {
-        if (url.searchParams.get('v')) return url.searchParams.get('v');
-        const match = url.pathname.match(/\/(?:embed|shorts|live)\/([^/?]+)/);
-        return match ? match[1] : '';
-      }
-      return '';
-    } catch { return ''; }
-  }
-  function ytEmbed(value, controls = 0, autoplay = 1) {
-    const id = ytId(value);
-    if (!id) return '';
-    const qs = new URLSearchParams({autoplay:String(autoplay), mute: controls ? '0':'1', controls:String(controls), playsinline:'1', rel:'0', iv_load_policy:'3'});
-    if (!controls) { qs.set('loop','1'); qs.set('playlist',id); qs.set('disablekb','1'); qs.set('fs','0'); }
-    return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${qs.toString()}`;
-  }
-  function youtubeThumbnail(value) {
-    const id = ytId(value || '');
-    return id ? `https://img.youtube.com/vi/${encodeURIComponent(id)}/hqdefault.jpg` : '';
-  }
-  function heroPlayerMarkup(value, title, thumbnail='') {
-    const raw = String(value || '').trim();
-    const id = ytId(raw);
-    let player = '';
-    if (id) {
-      const qs = new URLSearchParams({autoplay:'1',mute:'1',controls:'0',playsinline:'1',rel:'0',iv_load_policy:'3',disablekb:'1',fs:'0',loop:'1',playlist:id,modestbranding:'1'});
-      player = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?${qs}" title="${esc(title || 'Muted hero preview')}" loading="eager" allow="autoplay; encrypted-media" tabindex="-1" aria-hidden="true"></iframe>`;
-    } else if (/\.(mp4|m4v|webm|ogv)(?:[?#].*)?$/i.test(raw) || /\/api\/media\//i.test(raw)) {
-      player = `<video src="${esc(raw)}" autoplay muted loop playsinline preload="auto" disablepictureinpicture${thumbnail ? ` poster="${esc(thumbnail)}"`:''} aria-label="${esc(title || 'Muted hero preview')}"></video>`;
-    } else if (/^https?:\/\//i.test(raw) && /videas\.com/i.test(raw)) {
-      player = `<iframe src="${esc(raw)}" title="${esc(title || 'Muted hero preview')}" loading="eager" allow="autoplay; encrypted-media" tabindex="-1" aria-hidden="true"></iframe>`;
-    } else if (thumbnail) {
-      player = `<img class="hero-fallback-thumb" src="${esc(thumbnail)}" alt="" draggable="false">`;
-    }
-    if (!player && thumbnail) player = `<img class="hero-fallback-thumb" src="${esc(thumbnail)}" alt="" draggable="false">`;
-    return `${player}<span class="hero-no-controls" aria-hidden="true"></span>`;
+  const isMedia = value => /^\/api\/media\/(?:video|image)-[0-9a-f-]{36}\.[a-z0-9]{1,8}$/i.test(String(value || '').trim());
+  function heroPlayerMarkup(url, title) {
+    const raw = String(url || '').trim();
+    if (!isMedia(raw)) return '';
+    return `<video src="${esc(raw)}" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-label="${esc(title || 'Muted hero preview')}"></video><span class="hero-no-controls" aria-hidden="true"></span>`;
   }
   function renderHeroPreviews(data) {
     const stage = document.getElementById('heroStage');
     if (!stage) return;
-    const heroes = Array.isArray(data.heroVideos) ? data.heroVideos : [];
-    const choose = (mobile) => {
-      const filtered = heroes.filter(v => mobile ? v.showMobile !== false : v.showDesktop !== false);
-      return filtered.length ? filtered : heroes;
+    const heroes = (Array.isArray(data.heroVideos) ? data.heroVideos : []).filter(v => v && isMedia(v.url));
+    const phone = window.matchMedia('(max-width: 600px)');
+    const cards = { left: document.getElementById('heroVideoLeft'), right: document.getElementById('heroVideoRight'), center: document.getElementById('heroVideoMobile') };
+    const paint = () => {
+      const mobile = phone.matches;
+      const list = heroes.filter(v => mobile ? v.showMobile !== false : v.showDesktop !== false).slice(0, mobile ? 3 : 2);
+      // PC: left + right. Phone: 1 video = center, 2 = left + right, 3 = left + center + right.
+      let slots;
+      if (!mobile) slots = { left: list[0], right: list[1], center: null };
+      else if (list.length === 1) slots = { left: null, center: list[0], right: null };
+      else if (list.length === 2) slots = { left: list[0], center: null, right: list[1] };
+      else slots = { left: list[0], center: list[1], right: list[2] };
+      Object.entries(cards).forEach(([key, card]) => {
+        if (!card) return;
+        const item = slots[key];
+        card.innerHTML = item ? heroPlayerMarkup(item.url, '') : '';
+        card.style.display = item ? '' : 'none';
+        const video = card.querySelector('video');
+        if (video) video.play().catch(() => {});
+      });
     };
-    const desktop = choose(false);
-    const mobile = choose(true);
-    const fallback = {title:'',url:'https://www.youtube.com/watch?v=a7r3u3nmCsQ',thumbnailUrl:''};
-    const left = desktop[0] || heroes[0] || fallback;
-    const right = desktop[1] || desktop[0] || heroes[0] || fallback;
-    const center = mobile[2] || mobile[0] || heroes[0] || fallback;
-    const render = (id, item) => {
-      const card = document.getElementById(id);
-      if (!card) return;
-      card.innerHTML = heroPlayerMarkup(item.url || item.videoUrl || '', item.title || '', item.thumbnailUrl || '');
-      card.setAttribute('aria-label', item.title || localText('Muted video preview','معاينة فيديو صامتة'));
-    };
-    render('heroVideoLeft', left);
-    render('heroVideoRight', right);
-    render('heroVideoMobile', center);
+    paint();
+    if (phone.addEventListener) phone.addEventListener('change', paint); else if (phone.addListener) phone.addListener(paint);
   }
   function openMedia(item) {
     const modal = document.getElementById('portfolioMediaModal');
     if (!modal) return;
     const stage = modal.querySelector('.media-modal-stage');
     const details = modal.querySelector('.media-modal-details');
-    if (item.type === 'video') {
-      const src = ytEmbed(item.videoUrl,1,1);
-      stage.innerHTML = src ? `<iframe class="media-modal-frame ${item.orientation === 'vertical' ? 'vertical':''}" src="${esc(src)}" title="${esc(item.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` : `<p>${esc(localText('Video link is invalid.','رابط الفيديو غير صالح.'))}</p>`;
-    } else {
-      stage.innerHTML = item.imageUrl ? `<img class="media-modal-image" src="${esc(item.imageUrl)}" alt="${esc(item.title)}">` : '';
-    }
+    stage.innerHTML = item.imageUrl ? `<img class="media-modal-image" src="${esc(item.imageUrl)}" alt="${esc(item.title)}">` : '';
     details.innerHTML = `<h3>${esc(item.title || '')}</h3>${item.description ? `<p>${esc(item.description)}</p>`:''}`;
     modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
   }
@@ -650,8 +611,10 @@ initializeLanguage();
     while (run.length < 7) run = run.concat(featuredVideos);
     run = run.slice(0, Math.max(7, Math.min(12, run.length)));
     const renderSet = (items, duplicate=false) => items.map(item => {
-      const thumb = item.thumbnailUrl || youtubeThumbnail(item.videoUrl) || '';
-      return `<div class="work-marquee-card ${item.orientation==='horizontal'?'horizontal':''}" aria-hidden="true">${thumb ? `<img class="marquee-thumb" src="${esc(thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : '<span class="marquee-placeholder"></span>'}</div>`;
+      const visual = item.thumbnailUrl
+        ? `<img class="marquee-thumb" src="${esc(item.thumbnailUrl)}" alt="" loading="lazy">`
+        : `<video class="marquee-thumb" src="${esc(item.videoUrl)}#t=0.1" muted playsinline preload="metadata" tabindex="-1"></video>`;
+      return `<div class="work-marquee-card ${item.orientation==='horizontal'?'horizontal':''}" aria-hidden="true">${visual}</div>`;
     }).join('');
     track.innerHTML = renderSet(run) + renderSet(run, true);
     track.style.animationDuration = `${Math.max(22, Math.min(42, run.length * 2.8))}s`;
@@ -699,7 +662,7 @@ initializeLanguage();
     renderHomeWork(data.items);
   }
   loadData().then(initPortfolioPage);
-  window.PortfolioMedia = { openMedia, closeMedia, ytId, ytEmbed };
+  window.PortfolioMedia = { openMedia, closeMedia };
 })();
 </script>
 

@@ -12,71 +12,286 @@
 .top-actions{align-items:center}
 #saveBtn{white-space:nowrap}
 @media(max-width:780px){.shell{width:calc(100% - 20px)}.top-actions{width:100%}.top-actions .button{flex:1}}
+.counter{display:inline-block;margin-top:6px;font-size:11px;color:#d8c4ee}.media-preview{display:block;width:100%;max-height:220px;border-radius:10px;background:#000;object-fit:contain;margin-bottom:12px}.thumb-prev{display:block;max-width:130px;max-height:130px;border-radius:9px;object-fit:cover;background:#000;margin-bottom:12px}.field.full-row{grid-column:1/-1}.section-maker .split{margin-bottom:12px}.button:disabled{opacity:.5;cursor:not-allowed;transform:none}
 </style></head>
 <body><div class="shell"><header class="top"><div class="brand">MOHAMED <span>AMIN</span></div><div class="top-actions"><a class="button" href="index.html" target="_blank" rel="noopener">معاينة الموقع</a><button class="button primary" id="saveBtn" style="display:none">نشر التعديلات</button><button class="button" id="logoutBtn" style="display:none">تسجيل الخروج</button></div></header><div id="notice" class="notice" role="status"></div>
-<section class="login-wrap" id="loginWrap"><form class="login-card" id="loginForm"><h1>لوحة التحكم</h1><div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور" required></div><div class="field"><label for="token">رمز الوصول</label><input id="token" type="password" autocomplete="off" placeholder="أدخل رمز الوصول" required></div><button class="button primary" type="submit" style="width:100%">دخول</button></form></section><main class="workspace" id="workspace"><div class="status-row"><div><h1>إدارة البورتفوليو</h1><div class="status-text" id="repoStatus">جاهز</div></div><div class="top-actions"><button class="button" id="reloadBtn">إعادة تحميل البيانات</button></div></div>
+<section class="login-wrap" id="loginWrap"><form class="login-card" id="loginForm"><h1>لوحة التحكم</h1><div class="field"><label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" placeholder="كلمة المرور" required></div><button class="button primary" type="submit" style="width:100%">دخول</button></form></section>
+<main class="workspace" id="workspace"><div class="status-row"><div><h1>إدارة البورتفوليو</h1><div class="status-text" id="repoStatus">جاهز</div></div><div class="top-actions"><button class="button" id="reloadBtn">إعادة تحميل البيانات</button></div></div>
 <div class="tabs"><button class="tab active" data-tab="hero">فيديوهات الهيرو</button><button class="tab" data-tab="work">الأعمال والأقسام</button><button class="tab" data-tab="reviews">آراء العملاء</button></div>
-<section class="pane active" id="pane-hero"><div class="pane-head"><div><h2>فيديوهات المقدمة</h2></div><button class="button primary" id="addHero">+ إضافة فيديو</button></div><div class="inline-help">عطّل خيار الكمبيوتر أو الهاتف لكل فيديو حسب رغبتك. فيديوهات المعاينة ستكون صامتة وتعمل تلقائيًا بلا أدوات تحكم ظاهرة؛ لا يمكن التحكم في كل شعارات يوتيوب.</div><div class="card-list" id="heroList"></div></section>
-<section class="pane" id="pane-work"><div class="pane-head"><div><h2>الأعمال والأقسام</h2></div><button class="button primary" id="addWorkItem">+ إضافة عمل برابط</button></div>
-<div class="section-maker" id="r2UploadCard"><h3>رفع فيديو من الجهاز إلى الأعمال</h3><div class="split"><div class="field"><label for="r2VideoTitle">اسم العمل</label><input id="r2VideoTitle" placeholder="اسم الفيديو"></div><div class="field"><label for="r2VideoSection">القسم</label><select id="r2VideoSection"><option value="">بدون قسم</option></select></div><div class="field"><label for="r2VideoOrientation">اتجاه الفيديو</label><select id="r2VideoOrientation"><option value="vertical">طولي / رأسي</option><option value="horizontal">عرضي / أفقي</option></select></div><div class="field full"><label for="r2VideoFile">ملف الفيديو من الجهاز</label><input class="file-upload" id="r2VideoFile" type="file" accept="video/*" required></div><div class="field"><label for="r2VideoThumbnailUrl">رابط الصورة المصغرة (اختياري)</label><input dir="ltr" id="r2VideoThumbnailUrl" type="url" placeholder="https://..."></div><div class="field"><label for="r2VideoThumbnailFile">أو ارفع صورة مصغرة</label><input class="file-upload" id="r2VideoThumbnailFile" type="file" accept="image/*"></div><div class="field full"><label for="r2VideoDescription">التفاصيل (اختياري)</label><textarea id="r2VideoDescription" placeholder="تفاصيل العمل"></textarea></div></div><button class="button primary" id="uploadR2Video" type="button">رفع الفيديو وإضافته للأعمال</button></div>
-<div class="section-maker"><h3>إنشاء قسم جديد</h3><div class="split"><div class="field"><label>اسم القسم بالإنجليزية</label><input id="newSectionTitle" placeholder="Reels Editing"></div><div class="field"><label>اسم القسم بالعربية</label><input id="newSectionTitleAr" placeholder="مونتاج الريلز"></div><div class="field"><label>ترتيب القسم</label><input id="newSectionOrder" type="number" value="1" min="1"></div></div><button class="button" id="addSection">+ إضافة القسم</button></div><div class="pane-head"><div><h2>الأقسام الحالية</h2></div></div><div class="card-list" id="sectionList"></div><div class="pane-head" style="margin-top:28px"><div><h2>قائمة الأعمال</h2></div></div><div class="card-list" id="itemsList"></div></section>
+
+<section class="pane active" id="pane-hero"><div class="pane-head"><div><h2>فيديوهات الهيرو</h2><span class="counter" id="heroCounter"></span></div><button class="button primary" id="addHero">+ إضافة فيديو</button></div><div class="card-list" id="heroList"></div></section>
+
+<section class="pane" id="pane-work">
+<div class="section-maker"><h3>1) إنشاء قسم</h3><div class="split"><div class="field"><label>اسم القسم بالإنجليزية</label><input id="newSectionTitle" placeholder="Reels Editing"></div><div class="field"><label>اسم القسم بالعربية</label><input id="newSectionTitleAr" placeholder="مونتاج الريلز"></div><div class="field"><label>ترتيب القسم</label><input id="newSectionOrder" type="number" value="1" min="1"></div></div><button class="button" id="addSection">+ إضافة القسم</button></div>
+
+<div class="section-maker" id="uploadCard"><h3>2) رفع عمل من الجهاز</h3><div class="notice show error" id="noSectionNote" style="display:none">أنشئ قسمًا واحدًا على الأقل أولًا ثم ارفع الأعمال.</div>
+<div class="split"><div class="field"><label for="workType">نوع العمل</label><select id="workType"><option value="video">فيديو</option><option value="image">صورة</option></select></div><div class="field"><label for="workSection">القسم (إجباري)</label><select id="workSection"></select></div><div class="field"><label for="workTitle" id="workTitleLabel">عنوان الفيديو</label><input id="workTitle" placeholder="عنوان الفيديو"></div>
+<div class="field full-row"><label for="workFile" id="workFileLabel">ملف الفيديو</label><input class="file-upload" id="workFile" type="file" accept="video/*"></div>
+<div class="field full-row" id="workThumbWrap"><label for="workThumbFile">صورة مصغرة (اختياري)</label><input class="file-upload" id="workThumbFile" type="file" accept="image/*"></div>
+<div class="field full-row" id="workDescWrap" style="display:none"><label for="workDescription">الوصف</label><textarea id="workDescription" placeholder="وصف العمل"></textarea></div></div>
+<button class="button primary" id="uploadWork" type="button">رفع ونشر</button></div>
+
+<div class="pane-head"><div><h2>الأقسام الحالية</h2></div></div><div class="card-list" id="sectionList"></div>
+<div class="pane-head" style="margin-top:28px"><div><h2>قائمة الأعمال</h2></div></div><div class="card-list" id="itemsList"></div></section>
+
 <section class="pane" id="pane-reviews"><div class="pane-head"><div><h2>آراء العملاء</h2></div><button class="button primary" id="addReview">+ إضافة رأي</button></div><div class="card-list" id="reviewsList"></div></section>
 </main></div>
 <script>
 (() => {
- const OWNER='mazen1-1', REPO='mohamed-amin-1', FILE_PATH='portfolio-data.json';
- let token='', adminPassword='', branch='main', data={version:1,heroVideos:[],sections:[],items:[],reviews:[]};
- let activeTab='hero', isFilePresent=false, lastSha=null, saving=false;
+ const MAX_VIDEO=5*1024**3, MAX_IMAGE=25*1024*1024;
+ let adminPassword='', busy=false, saving=false, data=rawDefault();
  const $=id=>document.getElementById(id);
  const notice=$('notice');
- const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const makeId=prefix=>`${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
+ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const makeId=p=>`${p}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
+ function rawDefault(){return {version:1,heroVideos:[],sections:[],items:[],reviews:[]};}
  function showNotice(message,type='info'){notice.textContent=message;notice.className=`notice show ${type}`;notice.scrollIntoView({behavior:'smooth',block:'nearest'});}
  function clearNotice(){notice.className='notice';notice.textContent='';}
- function apiUrl(path=''){return `https://api.github.com/repos/${OWNER}/${REPO}${path}`;}
- async function gh(path,options={}){const headers={'Accept':'application/vnd.github+json','Authorization':`Bearer ${token}`,'X-GitHub-Api-Version':'2022-11-28',...(options.headers||{})};const response=await fetch(apiUrl(path),{...options,headers});let body=null;try{body=await response.json()}catch{}if(!response.ok){const error=new Error(body?.message||`تعذر إتمام الطلب (${response.status})`);error.status=response.status;throw error;}return body;}
- const rawDefault=()=>({version:1,heroVideos:[],sections:[],items:[],reviews:[]});
- function decodeBase64Utf8(content){const binary=atob(String(content||'').replace(/\n/g,''));const bytes=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)bytes[i]=binary.charCodeAt(i);return new TextDecoder().decode(bytes);}
- function bytesToBase64(bytes){let binary='';const chunk=0x8000;for(let i=0;i<bytes.length;i+=chunk)binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+chunk,bytes.length)));return btoa(binary);}
- async function getDataFile(){try{const result=await gh(`/contents/${FILE_PATH}?ref=${encodeURIComponent(branch)}`);lastSha=result.sha;isFilePresent=true;return JSON.parse(decodeBase64Utf8(result.content));}catch(error){if(error.status===404){lastSha=null;isFilePresent=false;return rawDefault();}throw error;}}
- async function loadData(showMessage=true){clearNotice();try{const next=await getDataFile();data={...rawDefault(),...next,heroVideos:Array.isArray(next.heroVideos)?next.heroVideos:[],sections:Array.isArray(next.sections)?next.sections:[],items:Array.isArray(next.items)?next.items:[],reviews:Array.isArray(next.reviews)?next.reviews:[]};renderAll();$('repoStatus').textContent='متصل';if(showMessage)showNotice(isFilePresent?'تم تحميل البيانات.':'سيُنشأ ملف البيانات عند أول نشر.', 'ok');}catch(error){showNotice('تعذر تحميل البيانات. تحقق من رمز الوصول وصلاحياته.','error');throw error;}}
- function activateTab(name){activeTab=name;document.querySelectorAll('.tab').forEach(tab=>tab.classList.toggle('active',tab.dataset.tab===name));document.querySelectorAll('.pane').forEach(pane=>pane.classList.toggle('active',pane.id===`pane-${name}`));}
- function moveItem(arr,index,step){const target=index+step;if(target<0||target>=arr.length)return;const [row]=arr.splice(index,1);arr.splice(target,0,row);if(arr===data.sections)arr.forEach((section,i)=>section.order=i+1);renderAll();}
- function deleteItem(arr,index,label){if(!confirm(`هل تريد حذف ${label}؟`))return;arr.splice(index,1);renderAll();showNotice('تم الحذف من التعديلات الحالية.','info');}
- function renderHero(){const root=$('heroList');if(!data.heroVideos.length){root.innerHTML='<div class="empty-admin">لا توجد فيديوهات بعد.</div>';return;}root.innerHTML=data.heroVideos.map((v,i)=>`<article class="editor-card"><h3>فيديو ${i+1}</h3><div class="form-grid"><div class="field full"><label>اسم الفيديو</label><input data-collection="heroVideos" data-index="${i}" data-field="title" value="${esc(v.title)}" placeholder="Video ${i+1}"></div><div class="field full"><label>رابط فيديو YouTube (بديل عن رفع ملف إلى R2)</label><input dir="ltr" data-collection="heroVideos" data-index="${i}" data-field="url" value="${esc(v.url)}" placeholder="YouTube video URL"></div><div class="field full"><label>الصورة المصغرة (اختياري)</label><input dir="ltr" data-collection="heroVideos" data-index="${i}" data-field="thumbnailUrl" value="${esc(v.thumbnailUrl||'')}" placeholder="رابط الصورة"></div><div class="field full"><label>رفع صورة مصغرة (اختياري)</label><input class="file-upload" type="file" accept="image/*" data-upload-hero="${i}"></div></div><div class="checks"><label class="check"><input type="checkbox" data-collection="heroVideos" data-index="${i}" data-field="showDesktop" ${v.showDesktop!==false?'checked':''}> الكمبيوتر</label><label class="check"><input type="checkbox" data-collection="heroVideos" data-index="${i}" data-field="showMobile" ${v.showMobile!==false?'checked':''}> الهاتف</label></div><div class="card-actions"><button class="button small" data-move="heroVideos" data-index="${i}" data-step="-1">↑ للأعلى</button><button class="button small" data-move="heroVideos" data-index="${i}" data-step="1">↓ للأسفل</button><button class="button danger small" data-delete="heroVideos" data-index="${i}">حذف</button></div></article>`).join('');}
- function renderSections(){const root=$('sectionList');if(!data.sections.length){root.innerHTML='<div class="empty-admin">لم تُضف أي أقسام بعد.</div>';return;}root.innerHTML=data.sections.map((s,i)=>`<article class="editor-card"><h3>القسم ${i+1}</h3><div class="form-grid"><div class="field"><label>اسم القسم بالإنجليزية</label><input data-collection="sections" data-index="${i}" data-field="title" value="${esc(s.title)}"></div><div class="field"><label>اسم القسم بالعربية</label><input data-collection="sections" data-index="${i}" data-field="titleAr" value="${esc(s.titleAr)}"></div><div class="field"><label>ترتيب القسم</label><input type="number" data-collection="sections" data-index="${i}" data-field="order" value="${esc(s.order??i+1)}"></div></div><div class="card-actions"><button class="button small" data-move="sections" data-index="${i}" data-step="-1">↑ للأعلى</button><button class="button small" data-move="sections" data-index="${i}" data-step="1">↓ للأسفل</button><button class="button danger small" data-delete="sections" data-index="${i}">حذف القسم</button></div></article>`).join('');}
- function renderItems(){const root=$('itemsList');if(!data.items.length){root.innerHTML='<div class="empty-admin">لم تُضف أعمالًا بعد. أضف فيديو أو صورة من الزر أعلى القسم.</div>';return;}root.innerHTML=data.items.map((item,i)=>{const sectionOptions=data.sections.map(section=>`<option value="${esc(section.id)}" ${String(item.sectionId||'')===String(section.id)?'selected':''}>${esc(section.title||section.titleAr)}</option>`).join('');return `<article class="editor-card"><h3>العمل ${i+1} <span class="pill">${item.type==='image'?'صورة':'فيديو'}</span></h3><div class="form-grid"><div class="field"><label>نوع العمل</label><select data-collection="items" data-index="${i}" data-field="type"><option value="video" ${item.type!=='image'?'selected':''}>فيديو</option><option value="image" ${item.type==='image'?'selected':''}>صورة</option></select></div><div class="field"><label>الاتجاه</label><select data-collection="items" data-index="${i}" data-field="orientation"><option value="vertical" ${item.orientation!=='horizontal'?'selected':''}>طولي / رأسي</option><option value="horizontal" ${item.orientation==='horizontal'?'selected':''}>عرضي / أفقي</option></select></div><div class="field full"><label>اسم العمل</label><input data-collection="items" data-index="${i}" data-field="title" value="${esc(item.title)}"></div><div class="field"><label>القسم</label><select data-collection="items" data-index="${i}" data-field="sectionId"><option value="" ${!item.sectionId?'selected':''}>بدون قسم</option>${sectionOptions}</select></div><div class="field"><label>الترتيب الحالي</label><input disabled value="${i+1} (استخدم أزرار الترتيب)"></div><div class="field full" style="${item.type==='video'?'':'display:none'}"><label>رابط فيديو YouTube (بديل عن رفع ملف إلى R2)</label><input dir="ltr" data-collection="items" data-index="${i}" data-field="videoUrl" value="${esc(item.videoUrl)}" placeholder="YouTube video URL"></div><div class="field full" style="${item.type==='image'?'':'display:none'}"><label>رابط الصورة</label><input dir="ltr" data-collection="items" data-index="${i}" data-field="imageUrl" value="${esc(item.imageUrl)}" placeholder="https://... أو ارفع الصورة من هنا"></div><div class="field full"><label>رابط صورة المعاينة للفيديو (Thumbnail)</label><input dir="ltr" data-collection="items" data-index="${i}" data-field="thumbnailUrl" value="${esc(item.thumbnailUrl)}" placeholder="اتركه فارغًا لاستخدام صورة يوتيوب الافتراضية"></div><div class="field full"><label>التفاصيل التي تظهر عند فتح العمل</label><textarea data-collection="items" data-index="${i}" data-field="description">${esc(item.description)}</textarea></div><div class="field full"><label>رفع صورة (حد أقصى 25 ميجابايت)</label><input class="file-upload" type="file" accept="image/*" data-upload-item="${i}"><span class="help">يمكنك إضافة صورة لعرضها مع العمل.</span></div></div><div class="checks"><label class="check"><input type="checkbox" data-collection="items" data-index="${i}" data-field="visible" ${item.visible!==false?'checked':''}> منشور في صفحة الأعمال</label><label class="check"><input type="checkbox" data-collection="items" data-index="${i}" data-field="showOnHome" ${item.showOnHome!==false?'checked':''}> يظهر في شريط My Work بالرئيسية (للفيديوهات فقط)</label></div><div class="card-actions"><button class="button small" data-move="items" data-index="${i}" data-step="-1">↑ للأعلى</button><button class="button small" data-move="items" data-index="${i}" data-step="1">↓ للأسفل</button><button class="button danger small" data-delete="items" data-index="${i}">حذف العمل</button></div></article>`;}).join('');}
- function renderReviews(){const root=$('reviewsList');if(!data.reviews.length){root.innerHTML='<div class="empty-admin">لم تُضف آراء العملاء بعد.</div>';return;}root.innerHTML=data.reviews.map((review,i)=>`<article class="editor-card"><h3>رأي العميل ${i+1}</h3><div class="form-grid"><div class="field"><label>نوع العرض</label><select data-collection="reviews" data-index="${i}" data-field="mode"><option value="text" ${review.mode!=='image'?'selected':''}>نص رأي</option><option value="image" ${review.mode==='image'?'selected':''}>صورة رأي</option></select></div><div class="field"><label>اسم العميل / اسم اختياري</label><input data-collection="reviews" data-index="${i}" data-field="clientName" value="${esc(review.clientName)}"></div><div class="field full"><label>النص أو التفاصيل</label><textarea data-collection="reviews" data-index="${i}" data-field="${review.mode==='image'?'detail':'content'}">${esc(review.mode==='image'?(review.detail||review.content):(review.content||''))}</textarea></div><div class="field full" style="${review.mode==='image'?'':'display:none'}"><label>رابط صورة الرأي</label><input dir="ltr" data-collection="reviews" data-index="${i}" data-field="imageUrl" value="${esc(review.imageUrl)}" placeholder="https://... أو ارفع الصورة أدناه"></div><div class="field full" style="${review.mode==='image'?'':'display:none'}"><label>رفع صورة رأي العميل (حتى 25 ميجابايت)</label><input class="file-upload" type="file" accept="image/*" data-upload-review="${i}"></div><div class="field full"><label>اسم زر الاختيار الاختياري</label><input data-collection="reviews" data-index="${i}" data-field="label" value="${esc(review.label)}" placeholder="رأي العميل الأول"></div></div><div class="checks"><label class="check"><input type="checkbox" data-collection="reviews" data-index="${i}" data-field="visible" ${review.visible!==false?'checked':''}> ظاهر على الموقع</label></div><div class="card-actions"><button class="button small" data-move="reviews" data-index="${i}" data-step="-1">↑ للأعلى</button><button class="button small" data-move="reviews" data-index="${i}" data-step="1">↓ للأسفل</button><button class="button danger small" data-delete="reviews" data-index="${i}">حذف الرأي</button></div></article>`).join('');}
- function renderR2SectionSelect(){const select=$('r2VideoSection');if(!select)return;const previous=select.value;select.innerHTML='<option value="">بدون قسم</option>'+data.sections.slice().sort((a,b)=>(a.order??0)-(b.order??0)).map(section=>`<option value="${esc(section.id)}">${esc(section.title||section.titleAr||'قسم')}</option>`).join('');if(data.sections.some(section=>String(section.id)===String(previous)))select.value=previous;}
- function renderAll(){renderHero();renderSections();renderR2SectionSelect();renderItems();renderReviews();}
- function addHero(){data.heroVideos.push({id:makeId('hero'),title:'',url:'',showDesktop:true,showMobile:true});renderHero();}
- function addWork(){data.items.push({id:makeId('work'),type:'video',title:'',sectionId:data.sections[0]?.id||'',videoUrl:'',thumbnailUrl:'',imageUrl:'',description:'',orientation:'vertical',visible:true,showOnHome:true});activateTab('work');renderItems();}
+ function normalizeLoaded(next){const arr=v=>Array.isArray(v)?v:[];return {...rawDefault(),...next,heroVideos:arr(next?.heroVideos),sections:arr(next?.sections),items:arr(next?.items),reviews:arr(next?.reviews)};}
+
+ // ---------- server API (password only; the GitHub token lives in Cloudflare) ----------
+ async function api(path,body){
+  const response=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':adminPassword},body:JSON.stringify(body)});
+  let result={};try{result=await response.json()}catch{}
+  if(!response.ok){const error=new Error(result.error||`تعذر إتمام الطلب (${response.status})`);error.status=response.status;throw error;}
+  return result;
+ }
+ async function loadData(showMessage=true){
+  clearNotice();
+  try{const result=await api('/api/portfolio-data',{action:'load'});data=normalizeLoaded(result.data);renderAll();$('repoStatus').textContent='متصل';if(showMessage)showNotice(result.exists?'تم تحميل البيانات.':'لا توجد بيانات بعد، سيُنشأ الملف عند أول نشر.','ok');}
+  catch(error){showNotice(`تعذر تحميل البيانات: ${error.message}`,'error');throw error;}
+ }
+
+ // ---------- validation / publish ----------
+ function validate(){
+  if(data.heroVideos.length>3)return 'الحد الأقصى ثلاثة فيديوهات في الهيرو.';
+  if(data.heroVideos.filter(v=>v.showDesktop!==false).length>2)return 'اختر فيديوهين فقط كحد أقصى للكمبيوتر.';
+  if(data.heroVideos.filter(v=>v.showMobile!==false).length>3)return 'اختر ثلاثة فيديوهات كحد أقصى للهاتف.';
+  for(let i=0;i<data.heroVideos.length;i++)if(!data.heroVideos[i].url)return `ارفع فيديو الهيرو رقم ${i+1} أو احذف البطاقة.`;
+  if(data.items.length&&!data.sections.length)return 'أنشئ قسمًا واحدًا على الأقل.';
+  const ids=new Set(data.sections.map(s=>String(s.id)));
+  for(let i=0;i<data.items.length;i++){
+   const item=data.items[i];
+   if(!String(item.title||'').trim())return item.type==='image'?`أدخل اسم العميل للصورة رقم ${i+1}.`:`أدخل عنوان الفيديو رقم ${i+1}.`;
+   if(!ids.has(String(item.sectionId||'')))return `اختر القسم للعمل رقم ${i+1}.`;
+   if(item.type==='image'&&!item.imageUrl)return `الصورة رقم ${i+1} بلا ملف.`;
+   if(item.type!=='image'&&!item.videoUrl)return `الفيديو رقم ${i+1} بلا ملف.`;
+  }
+  return '';
+ }
+ async function saveData(){
+  if(saving)return false;
+  const problem=validate();
+  if(problem){showNotice(problem,'error');return false;}
+  saving=true;clearNotice();$('saveBtn').disabled=true;let ok=false;
+  try{await api('/api/portfolio-data',{action:'save',data});$('repoStatus').textContent='تم النشر';showNotice('تم نشر التعديلات. قد يستغرق ظهورها على الموقع دقيقة أو دقيقتين.','ok');ok=true;}
+  catch(error){showNotice(`تعذر نشر التعديلات: ${error.message}`,'error');}
+  finally{saving=false;$('saveBtn').disabled=false;}
+  return ok;
+ }
+
+ // ---------- uploads (always from the device, straight to R2) ----------
+ function inferMediaType(file){const reported=String(file.type||'').split(';')[0].trim().toLowerCase();if(reported.startsWith('video/')||reported.startsWith('image/'))return reported;const ext=String(file.name||'').split('.').pop().toLowerCase();return ({mp4:'video/mp4',m4v:'video/x-m4v',mov:'video/quicktime',webm:'video/webm',mkv:'video/x-matroska',ogv:'video/ogg',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif',avif:'image/avif'})[ext]||reported;}
+ function checkFile(file,kind){
+  const type=inferMediaType(file);
+  if(kind==='video'){if(!type.startsWith('video/'))throw new Error('اختر ملف فيديو (MP4 أو MOV أو WebM).');if(file.size>MAX_VIDEO)throw new Error('الحد الأقصى للفيديو 5 جيجابايت.');}
+  else{if(!type.startsWith('image/'))throw new Error('اختر ملف صورة صالحًا.');if(file.size>MAX_IMAGE)throw new Error('حجم الصورة أكبر من 25 ميجابايت.');}
+  return type;
+ }
+ async function requestR2Upload(file,contentType){
+  const response=await fetch('/api/r2-presign',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':adminPassword},body:JSON.stringify({filename:file.name,contentType,size:file.size})});
+  let result={};try{result=await response.json()}catch{}
+  if(!response.ok)throw new Error(result.error||`تعذر بدء الرفع (${response.status}).`);
+  return result;
+ }
+ function putFile(file,uploadUrl,label,contentType){return new Promise((resolve,reject)=>{const xhr=new XMLHttpRequest();xhr.open('PUT',uploadUrl);xhr.setRequestHeader('Content-Type',contentType);xhr.upload.onprogress=e=>{if(e.lengthComputable){notice.textContent=`جارٍ رفع ${label}: ${Math.round(e.loaded/e.total*100)}%`;notice.className='notice show info';}};xhr.onload=()=>xhr.status>=200&&xhr.status<300?resolve():reject(new Error(`رفض تخزين الملف (${xhr.status}). راجع إعداد CORS في R2.`));xhr.onerror=()=>reject(new Error('فشل الاتصال بـ R2. راجع إعداد CORS في إعدادات الحاوية.'));xhr.onabort=()=>reject(new Error('تم إلغاء الرفع.'));xhr.send(file);});}
+ async function uploadToR2(file,kind){
+  const type=checkFile(file,kind);
+  if(!adminPassword)throw new Error('سجّل الدخول مجددًا.');
+  const signed=await requestR2Upload(file,type);
+  await putFile(file,signed.uploadUrl,file.name,signed.contentType||type);
+  return signed.mediaUrl;
+ }
+ function detectOrientation(file){return new Promise(resolve=>{const url=URL.createObjectURL(file);const v=document.createElement('video');let finished=false;const done=o=>{if(finished)return;finished=true;URL.revokeObjectURL(url);resolve(o);};v.preload='metadata';v.muted=true;v.onloadedmetadata=()=>done(v.videoWidth>v.videoHeight?'horizontal':'vertical');v.onerror=()=>done('vertical');setTimeout(()=>done('vertical'),4000);v.src=url;});}
+ async function guarded(task){if(busy){showNotice('انتظر حتى ينتهي الرفع الحالي.','error');return;}busy=true;try{await task();}catch(error){showNotice(error.message||'حدث خطأ غير متوقع.','error');}finally{busy=false;}}
+
+ // ---------- tabs / ordering ----------
+ function activateTab(name){document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===`pane-${name}`));}
+ function moveItem(arr,index,step){const target=index+step;if(target<0||target>=arr.length)return;const [row]=arr.splice(index,1);arr.splice(target,0,row);if(arr===data.sections)arr.forEach((s,i)=>s.order=i+1);renderAll();}
+ function deleteRow(name,index){
+  const labels={heroVideos:'فيديو الهيرو',sections:'القسم',items:'العمل',reviews:'رأي العميل'};
+  if(name==='sections'){const section=data.sections[index];if(data.items.some(i=>String(i.sectionId)===String(section.id))){showNotice('هذا القسم يحتوي أعمالًا. انقلها لقسم آخر أو احذفها أولًا.','error');return;}}
+  if(!confirm(`هل تريد حذف ${labels[name]}؟`))return;
+  data[name].splice(index,1);renderAll();showNotice('تم الحذف من التعديلات الحالية. اضغط «نشر التعديلات» لحفظه.','info');
+ }
+
+ // ---------- rendering ----------
+ const actions=(name,i,delLabel)=>`<div class="card-actions"><button class="button small" data-move="${name}" data-index="${i}" data-step="-1">↑ للأعلى</button><button class="button small" data-move="${name}" data-index="${i}" data-step="1">↓ للأسفل</button><button class="button danger small" data-delete="${name}" data-index="${i}">${delLabel}</button></div>`;
+ const field=(col,i,f)=>`data-collection="${col}" data-index="${i}" data-field="${f}"`;
+ function heroCounts(){return {pc:data.heroVideos.filter(v=>v.showDesktop!==false).length,ph:data.heroVideos.filter(v=>v.showMobile!==false).length};}
+ function renderHero(){
+  const {pc,ph}=heroCounts();
+  $('heroCounter').textContent=`${data.heroVideos.length}/3 فيديوهات · الكمبيوتر ${pc}/2 · الهاتف ${ph}/3`;
+  $('addHero').disabled=data.heroVideos.length>=3;
+  const root=$('heroList');
+  if(!data.heroVideos.length){root.innerHTML='<div class="empty-admin">لا توجد فيديوهات بعد. أضف حتى ثلاثة فيديوهات من جهازك.</div>';return;}
+  const pcSlots=['يسار','يمين'], phSlots={1:['وسط'],2:['يسار','يمين'],3:['يسار','وسط','يمين']};
+  let pcSeen=0,phSeen=0;
+  root.innerHTML=data.heroVideos.map((v,i)=>{
+   const pcPos=v.showDesktop!==false&&pcSeen<2?pcSlots[pcSeen++]:'';
+   const phList=phSlots[Math.min(ph,3)]||[];
+   const phPos=v.showMobile!==false&&phSeen<3?phList[phSeen++]||'':'';
+   return `<article class="editor-card"><h3>فيديو ${i+1} ${pcPos?`<span class="pill">كمبيوتر: ${pcPos}</span>`:''} ${phPos?`<span class="pill">هاتف: ${phPos}</span>`:''}</h3>${v.url?`<video class="media-preview" src="${esc(v.url)}#t=0.1" controls muted playsinline preload="metadata"></video>`:'<div class="empty-admin" style="margin-bottom:12px">لم يُرفع فيديو بعد</div>'}<div class="field"><label>${v.url?'استبدال الفيديو من الجهاز':'ارفع الفيديو من الجهاز'}</label><input class="file-upload" type="file" accept="video/*" data-hero-file="${i}"></div><div class="checks"><label class="check"><input type="checkbox" ${field('heroVideos',i,'showDesktop')} ${v.showDesktop!==false?'checked':''}> يظهر على الكمبيوتر</label><label class="check"><input type="checkbox" ${field('heroVideos',i,'showMobile')} ${v.showMobile!==false?'checked':''}> يظهر على الهاتف</label></div>${actions('heroVideos',i,'حذف')}</article>`;
+  }).join('');
+ }
+ function renderSections(){
+  const root=$('sectionList');
+  if(!data.sections.length){root.innerHTML='<div class="empty-admin">لم تُضف أي أقسام بعد.</div>';return;}
+  root.innerHTML=data.sections.map((s,i)=>`<article class="editor-card"><h3>القسم ${i+1}</h3><div class="form-grid"><div class="field"><label>اسم القسم بالإنجليزية</label><input ${field('sections',i,'title')} value="${esc(s.title)}"></div><div class="field"><label>اسم القسم بالعربية</label><input ${field('sections',i,'titleAr')} value="${esc(s.titleAr)}"></div><div class="field"><label>ترتيب القسم</label><input type="number" ${field('sections',i,'order')} value="${esc(s.order??i+1)}"></div></div>${actions('sections',i,'حذف القسم')}</article>`).join('');
+ }
+ function sectionOptions(selected){
+  const sorted=data.sections.slice().sort((a,b)=>(a.order??0)-(b.order??0));
+  const valid=sorted.some(s=>String(s.id)===String(selected||''));
+  return `<option value="" disabled ${valid?'':'selected'}>اختر القسم</option>`+sorted.map(s=>`<option value="${esc(s.id)}" ${String(s.id)===String(selected||'')?'selected':''}>${esc(s.titleAr||s.title)}</option>`).join('');
+ }
+ function renderWorkSectionSelect(){
+  const select=$('workSection');const previous=select.value;
+  select.innerHTML=sectionOptions(data.sections.some(s=>String(s.id)===previous)?previous:'');
+  const none=!data.sections.length;$('noSectionNote').style.display=none?'block':'none';
+  ['workType','workSection','workTitle','workFile','workThumbFile','workDescription','uploadWork'].forEach(id=>$(id).disabled=none);
+ }
+ function renderItems(){
+  const root=$('itemsList');
+  if(!data.items.length){root.innerHTML='<div class="empty-admin">لم تُضف أعمال بعد.</div>';return;}
+  root.innerHTML=data.items.map((item,i)=>{
+   const isImage=item.type==='image';
+   const preview=isImage?(item.imageUrl?`<img class="thumb-prev" src="${esc(item.imageUrl)}" alt="">`:''):(item.thumbnailUrl?`<img class="thumb-prev" src="${esc(item.thumbnailUrl)}" alt="">`:(item.videoUrl?`<video class="thumb-prev" src="${esc(item.videoUrl)}#t=0.1" muted playsinline preload="metadata"></video>`:''));
+   const specific=isImage
+    ?`<div class="field full"><label>الوصف</label><textarea ${field('items',i,'description')}>${esc(item.description)}</textarea></div><div class="field full"><label>استبدال الصورة من الجهاز</label><input class="file-upload" type="file" accept="image/*" data-item-image="${i}"></div>`
+    :`<div class="field"><label>الاتجاه</label><select ${field('items',i,'orientation')}><option value="vertical" ${item.orientation!=='horizontal'?'selected':''}>طولي / رأسي</option><option value="horizontal" ${item.orientation==='horizontal'?'selected':''}>عرضي / أفقي</option></select></div><div class="field"><label>صورة مصغرة (اختياري)</label><input class="file-upload" type="file" accept="image/*" data-item-thumb="${i}"></div>${item.thumbnailUrl?`<div class="field full"><button class="button small" type="button" data-clear-thumb="${i}">إزالة الصورة المصغرة</button></div>`:''}`;
+   const checks=isImage
+    ?`<label class="check"><input type="checkbox" ${field('items',i,'visible')} ${item.visible!==false?'checked':''}> منشور في صفحة الأعمال</label>`
+    :`<label class="check"><input type="checkbox" ${field('items',i,'visible')} ${item.visible!==false?'checked':''}> منشور في صفحة الأعمال</label><label class="check"><input type="checkbox" ${field('items',i,'showOnHome')} ${item.showOnHome!==false?'checked':''}> يظهر في شريط My Work بالرئيسية</label>`;
+   return `<article class="editor-card"><h3>العمل ${i+1} <span class="pill">${isImage?'صورة':'فيديو'}</span></h3>${preview}<div class="form-grid"><div class="field"><label>${isImage?'اسم العميل':'عنوان الفيديو'}</label><input ${field('items',i,'title')} value="${esc(item.title)}"></div><div class="field"><label>القسم</label><select ${field('items',i,'sectionId')}>${sectionOptions(item.sectionId)}</select></div>${specific}</div><div class="checks">${checks}</div>${actions('items',i,'حذف العمل')}</article>`;
+  }).join('');
+ }
+ function renderReviews(){
+  const root=$('reviewsList');
+  if(!data.reviews.length){root.innerHTML='<div class="empty-admin">لم تُضف آراء العملاء بعد.</div>';return;}
+  root.innerHTML=data.reviews.map((r,i)=>{const img=r.mode==='image';return `<article class="editor-card"><h3>رأي العميل ${i+1}</h3><div class="form-grid"><div class="field"><label>نوع العرض</label><select ${field('reviews',i,'mode')}><option value="text" ${!img?'selected':''}>نص رأي</option><option value="image" ${img?'selected':''}>صورة رأي</option></select></div><div class="field"><label>اسم العميل / اسم اختياري</label><input ${field('reviews',i,'clientName')} value="${esc(r.clientName)}"></div><div class="field full"><label>النص أو التفاصيل</label><textarea ${field('reviews',i,img?'detail':'content')}>${esc(img?(r.detail||r.content):(r.content||''))}</textarea></div>${img?`${r.imageUrl?`<div class="field full"><img class="thumb-prev" src="${esc(r.imageUrl)}" alt=""></div>`:''}<div class="field full"><label>رفع صورة رأي العميل من الجهاز (حتى 25 ميجابايت)</label><input class="file-upload" type="file" accept="image/*" data-review-image="${i}"></div>`:''}<div class="field full"><label>اسم زر الاختيار الاختياري</label><input ${field('reviews',i,'label')} value="${esc(r.label)}" placeholder="رأي العميل الأول"></div></div><div class="checks"><label class="check"><input type="checkbox" ${field('reviews',i,'visible')} ${r.visible!==false?'checked':''}> ظاهر على الموقع</label></div>${actions('reviews',i,'حذف الرأي')}</article>`;}).join('');
+ }
+ function renderAll(){renderHero();renderSections();renderWorkSectionSelect();renderItems();renderReviews();}
+
+ // ---------- actions ----------
+ function addHero(){if(data.heroVideos.length>=3){showNotice('الحد الأقصى ثلاثة فيديوهات.','error');return;}data.heroVideos.push({id:makeId('hero'),url:'',showDesktop:true,showMobile:true});renderHero();}
  function addReview(){data.reviews.push({id:makeId('review'),mode:'text',clientName:'',content:'',detail:'',imageUrl:'',label:'',visible:true});renderReviews();}
- async function saveData(){if(saving)return false;saving=true;clearNotice();$('saveBtn').disabled=true;let succeeded=false;try{const desktop=data.heroVideos.filter(v=>v.showDesktop!==false);const mobile=data.heroVideos.filter(v=>v.showMobile!==false);if(desktop.length>2)throw new Error('اختر فيديوهين فقط كحد أقصى للكمبيوتر.');if(mobile.length>3)throw new Error('اختر ثلاثة فيديوهات فقط كحد أقصى للهاتف.');for(let i=0;i<data.heroVideos.length;i++){if(!String(data.heroVideos[i].url||'').trim())throw new Error(`أدخل رابط فيديو الهيرو رقم ${i+1} أو احذف البطاقة.`)}for(let i=0;i<data.items.length;i++){const item=data.items[i];if(!String(item.title||'').trim())throw new Error(`أدخل اسم العمل رقم ${i+1}.`);if(item.type==='video'&&!String(item.videoUrl||'').trim())throw new Error(`أدخل رابط الفيديو للعمل رقم ${i+1}.`);if(item.type==='image'&&!String(item.imageUrl||'').trim())throw new Error(`أدخل رابط الصورة للعمل رقم ${i+1}.`)}
-      data.version=1;data.updatedAt=new Date().toISOString();
-      try{const current=await gh(`/contents/${FILE_PATH}?ref=${encodeURIComponent(branch)}`);lastSha=current.sha;isFilePresent=true}catch(error){if(error.status===404){lastSha=null;isFilePresent=false}else throw error;}
-      const bytes=new TextEncoder().encode(JSON.stringify(data,null,2));const content=bytesToBase64(bytes);const body={message:'Update portfolio data via admin.html',content,branch};if(lastSha)body.sha=lastSha;
-      const saved=await gh(`/contents/${FILE_PATH}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});lastSha=saved.content?.sha||null;isFilePresent=true;$('repoStatus').textContent='تم النشر';showNotice('تم نشر التعديلات بنجاح.','ok');succeeded=true;
-    }catch(error){showNotice(`تعذر نشر التعديلات: ${error.message||'تحقق من الاتصال ورمز الوصول.'}`,'error');}finally{saving=false;$('saveBtn').disabled=false;}return succeeded;}
- function inferMediaType(file){const reported=String(file.type||'').split(';')[0].trim().toLowerCase();if(reported.startsWith('video/')||reported.startsWith('image/'))return reported;const ext=String(file.name||'').split('.').pop().toLowerCase();const guessed=({mp4:'video/mp4',m4v:'video/x-m4v',mov:'video/quicktime',webm:'video/webm',mkv:'video/x-matroska',ogv:'video/ogg',avi:'video/x-msvideo',mpeg:'video/mpeg',mpg:'video/mpeg',jpg:'image/jpeg',jpeg:'image/jpeg',png:'image/png',webp:'image/webp',gif:'image/gif',avif:'image/avif'})[ext];return guessed||reported;}
- async function requestR2Upload(file,contentType){const response=await fetch('/api/r2-presign',{method:'POST',headers:{'Content-Type':'application/json','X-Admin-Password':adminPassword},body:JSON.stringify({filename:file.name,contentType:contentType||inferMediaType(file),size:file.size})});let result={};try{result=await response.json()}catch{}if(!response.ok)throw new Error(result.error||`تعذر بدء الرفع (${response.status}).`);return result;}
- function uploadSignedFile(file,uploadUrl,label,contentType){return new Promise((resolve,reject)=>{const xhr=new XMLHttpRequest();xhr.open('PUT',uploadUrl);xhr.setRequestHeader('Content-Type',contentType||inferMediaType(file));xhr.upload.onprogress=event=>{if(event.lengthComputable){notice.textContent=`جارٍ رفع ${label}: ${Math.round(event.loaded/event.total*100)}%`;notice.className='notice show info';}};xhr.onload=()=>{if(xhr.status>=200&&xhr.status<300)resolve();else reject(new Error(`رفض تخزين الملف (${xhr.status}). راجع إعداد CORS في R2.`));};xhr.onerror=()=>reject(new Error('فشل الاتصال بـ R2. راجع إعداد CORS في إعدادات الحاوية.'));xhr.onabort=()=>reject(new Error('تم إلغاء الرفع.'));xhr.send(file);});}
- async function uploadR2File(file,label,contentType){const signed=await requestR2Upload(file,contentType||inferMediaType(file));await uploadSignedFile(file,signed.uploadUrl,label,signed.contentType);return signed;}
- async function addUploadedR2Video(){const button=$('uploadR2Video');const file=$('r2VideoFile').files?.[0];if(!file){showNotice('اختر ملف فيديو من جهازك أولًا.','error');return;}const videoType=inferMediaType(file);if(!videoType.startsWith('video/')){showNotice('اختر ملف فيديو بصيغة MP4 أو MOV أو WebM أو MKV.','error');return;}if(file.size>5*1024**3){showNotice('الحد الأقصى للرفع المباشر 5 جيبي بايت للفيديو الواحد.','error');return;}if(!adminPassword){showNotice('سجّل الدخول مجددًا لبدء رفع الملفات.','error');return;}
-   button.disabled=true;const title=$('r2VideoTitle').value.trim()||file.name.replace(/\.[^.]+$/,'');let videoSigned=null;
-   try{showNotice(`جارٍ تجهيز رفع ${file.name}...`,'info');videoSigned=await uploadR2File(file,file.name,videoType);let thumbnailUrl=$('r2VideoThumbnailUrl').value.trim();const thumbnailFile=$('r2VideoThumbnailFile').files?.[0];if(thumbnailFile){const thumbnailType=inferMediaType(thumbnailFile);if(!thumbnailType.startsWith('image/'))throw new Error('الصورة المصغرة ليست ملف صورة صالحًا.');if(thumbnailFile.size>25*1024*1024)throw new Error('حجم الصورة المصغرة أكبر من 25 ميجابايت.');try{const thumbSigned=await uploadR2File(thumbnailFile,thumbnailFile.name,thumbnailType);thumbnailUrl=thumbSigned.mediaUrl;}catch(error){showNotice(`تم رفع الفيديو، لكن تعذر رفع الصورة المصغرة: ${error.message}`,'error');}}
-     const item={id:makeId('work'),type:'video',storage:'r2',mediaType:'r2',r2Key:videoSigned.key,title,sectionId:$('r2VideoSection').value||'',videoUrl:videoSigned.mediaUrl,thumbnailUrl,imageUrl:'',description:$('r2VideoDescription').value.trim(),orientation:$('r2VideoOrientation').value==='horizontal'?'horizontal':'vertical',visible:true,showOnHome:true};data.items.push(item);activateTab('work');renderItems();
-     const published=await saveData();if(published){$('r2VideoTitle').value='';$('r2VideoFile').value='';$('r2VideoThumbnailUrl').value='';$('r2VideoThumbnailFile').value='';$('r2VideoDescription').value='';showNotice('تم رفع الفيديو إلى R2 ونشره تلقائيًا في قسم الأعمال.','ok');}else{showNotice('تم رفع الفيديو إلى R2 وإضافته إلى لوحة التحكم، لكن لم يتم نشر ملف البيانات. اضغط «نشر التعديلات» للمحاولة مجددًا.','error');}
-   }catch(error){showNotice(`تعذر إكمال الرفع: ${error.message||'حدث خطأ غير متوقع.'}`,'error');}finally{button.disabled=false;}}
- async function uploadImage(file, directory='assets/portfolio') {if(!file) return '';const max=25*1024*1024;if(file.size>max)throw new Error('حجم الصورة أكبر من 25 ميجابايت.');if(!file.type.startsWith('image/'))throw new Error('اختر ملف صورة صالحًا.');const safe=file.name.normalize('NFKD').replace(/[^a-zA-Z0-9._-]+/g,'-').replace(/^-+|-+$/g,'')||'image.png';const path=`${directory}/${Date.now()}-${safe}`;showNotice(`جارٍ رفع ${file.name}...`,'info');const bytes=new Uint8Array(await file.arrayBuffer());const content=bytesToBase64(bytes);await gh(`/contents/${path}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:`Upload portfolio image ${safe}`,content,branch})});const publicUrl=`https://mohamed-amin.pages.dev/${path}`;return publicUrl;}
- async function onUpload(input,kind,index){const file=input.files?.[0];if(!file)return;input.disabled=true;try{const url=await uploadImage(file);if(kind==='hero'){const video=data.heroVideos[index];if(!video)throw new Error('الفيديو غير موجود.');video.thumbnailUrl=url;renderHero();showNotice('تمت إضافة الصورة المصغرة.','ok')}else if(kind==='item'){const item=data.items[index];if(!item)throw new Error('العمل غير موجود.');if(item.type==='image')item.imageUrl=url;else item.thumbnailUrl=url;renderItems();showNotice('تمت إضافة الصورة. انشر التعديلات لحفظها.','ok')}else{const review=data.reviews[index];if(!review)throw new Error('رأي العميل غير موجود.');review.imageUrl=url;review.mode='image';renderReviews();showNotice('تمت إضافة صورة رأي العميل. انشر التعديلات لحفظها.','ok')}}catch(error){showNotice(`فشل رفع الصورة: ${error.message}`,'error')}finally{input.disabled=false;}}
- function getCollection(name){return data[name]}
- document.addEventListener('input',event=>{const el=event.target;if(!el.matches('[data-collection][data-field]'))return;const arr=getCollection(el.dataset.collection);const object=arr?.[Number(el.dataset.index)];if(!object)return;const field=el.dataset.field;object[field]=el.type==='checkbox'?el.checked:(el.type==='number'?Number(el.value):el.value);});
- document.addEventListener('change',event=>{const el=event.target;if(el.matches('[data-collection][data-field]')){const arr=getCollection(el.dataset.collection);const object=arr?.[Number(el.dataset.index)];if(!object)return;object[el.dataset.field]=el.type==='checkbox'?el.checked:(el.type==='number'?Number(el.value):el.value);if(el.dataset.field==='type'||el.dataset.field==='mode')renderAll();}else if(el.matches('[data-upload-hero]'))onUpload(el,'hero',Number(el.dataset.uploadHero));else if(el.matches('[data-upload-item]'))onUpload(el,'item',Number(el.dataset.uploadItem));else if(el.matches('[data-upload-review]'))onUpload(el,'review',Number(el.dataset.uploadReview));});
- document.addEventListener('click',event=>{const tab=event.target.closest('[data-tab]');if(tab){activateTab(tab.dataset.tab);return}const move=event.target.closest('[data-move]');if(move){moveItem(data[move.dataset.move],Number(move.dataset.index),Number(move.dataset.step));return}const del=event.target.closest('[data-delete]');if(del){deleteItem(data[del.dataset.delete],Number(del.dataset.index),({heroVideos:'فيديو الهيرو',sections:'القسم',items:'العمل',reviews:'رأي العميل'})[del.dataset.delete]);return;}});
- $('loginForm').addEventListener('submit',async event=>{event.preventDefault();clearNotice();const password=$('password').value;token=$('token').value.trim();branch='main';if(!token){showNotice('أدخل رمز الوصول.','error');return}$('token').value='';const submit=event.submitter||$('loginForm').querySelector('button[type=submit]');submit.disabled=true;submit.textContent='جارٍ الدخول...';try{const authResponse=await fetch('/api/admin-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});let authBody={};try{authBody=await authResponse.json()}catch{}if(!authResponse.ok)throw new Error(authBody.error||'كلمة المرور غير صحيحة.');adminPassword=password;await gh('');$('loginWrap').classList.add('hidden');$('workspace').classList.add('active');$('logoutBtn').style.display='inline-flex';$('saveBtn').style.display='inline-flex';await loadData(false);showNotice('تم تسجيل الدخول.','ok')}catch(error){token='';adminPassword='';showNotice(error.message||'تعذر تسجيل الدخول. تحقق من رمز الوصول وصلاحياته.','error')}finally{submit.disabled=false;submit.textContent='دخول';}});
- $('logoutBtn').addEventListener('click',()=>{token='';adminPassword='';data=rawDefault();$('workspace').classList.remove('active');$('loginWrap').classList.remove('hidden');$('logoutBtn').style.display='none';$('saveBtn').style.display='none';$('password').value='';$('token').value='';$('repoStatus').textContent='غير متصل';showNotice('تم تسجيل الخروج.','info');});
- $('addHero').addEventListener('click',addHero);$('addWorkItem').addEventListener('click',addWork);$('addReview').addEventListener('click',addReview);$('uploadR2Video').addEventListener('click',addUploadedR2Video);$('saveBtn').addEventListener('click',saveData);$('reloadBtn').addEventListener('click',()=>loadData(true));
- $('addSection').addEventListener('click',()=>{const title=$('newSectionTitle').value.trim();const titleAr=$('newSectionTitleAr').value.trim();if(!title&&!titleAr){showNotice('أدخل اسم القسم بالعربية أو الإنجليزية على الأقل.','error');return}data.sections.push({id:makeId('section'),title:title||titleAr,titleAr:titleAr||title,order:Number($('newSectionOrder').value)||data.sections.length+1});$('newSectionTitle').value='';$('newSectionTitleAr').value='';$('newSectionOrder').value=String(data.sections.length+1);renderSections();renderR2SectionSelect();renderItems();showNotice('تمت إضافة القسم.','ok');});
+ function syncWorkForm(){
+  const video=$('workType').value==='video';
+  $('workTitleLabel').textContent=video?'عنوان الفيديو':'اسم العميل';
+  $('workTitle').placeholder=video?'عنوان الفيديو':'اسم العميل';
+  $('workFileLabel').textContent=video?'ملف الفيديو':'ملف الصورة';
+  $('workFile').accept=video?'video/*':'image/*';$('workFile').value='';
+  $('workThumbWrap').style.display=video?'':'none';
+  $('workDescWrap').style.display=video?'none':'';
+ }
+ async function uploadWork(){
+  const type=$('workType').value;
+  const file=$('workFile').files?.[0];
+  const sectionId=$('workSection').value;
+  if(!data.sections.length)throw new Error('أنشئ قسمًا واحدًا على الأقل أولًا.');
+  if(!sectionId)throw new Error('اختر القسم، وهو إجباري.');
+  if(!file)throw new Error(type==='video'?'اختر ملف الفيديو من جهازك.':'اختر ملف الصورة من جهازك.');
+  checkFile(file,type);
+  let title=$('workTitle').value.trim();
+  if(type==='image'&&!title)throw new Error('اكتب اسم العميل.');
+  if(!title)title=file.name.replace(/\.[^.]+$/,'');
+  const button=$('uploadWork');button.disabled=true;
+  try{
+   let item;
+   if(type==='video'){
+    const orientation=await detectOrientation(file);
+    const videoUrl=await uploadToR2(file,'video');
+    let thumbnailUrl='';const thumb=$('workThumbFile').files?.[0];
+    if(thumb){try{thumbnailUrl=await uploadToR2(thumb,'image');}catch(error){showNotice(`تم رفع الفيديو لكن تعذر رفع الصورة المصغرة: ${error.message}`,'error');}}
+    item={id:makeId('work'),type:'video',storage:'r2',mediaType:'r2',title,sectionId,videoUrl,thumbnailUrl,orientation,visible:true,showOnHome:true};
+   }else{
+    const imageUrl=await uploadToR2(file,'image');
+    item={id:makeId('work'),type:'image',title,sectionId,imageUrl,description:$('workDescription').value.trim(),visible:true};
+   }
+   data.items.push(item);renderItems();
+   const published=await saveData();
+   if(published){['workTitle','workFile','workThumbFile','workDescription'].forEach(id=>$(id).value='');showNotice('تم رفع العمل ونشره.','ok');}
+   else showNotice('تم الرفع وإضافة العمل، لكن لم يُنشر ملف البيانات. اضغط «نشر التعديلات» للمحاولة مجددًا.','error');
+  }finally{button.disabled=false;}
+ }
+ async function uploadInto(input,kind,apply,message){
+  const file=input.files?.[0];if(!file)return;
+  input.disabled=true;
+  try{const url=await uploadToR2(file,kind);apply(url);showNotice(message,'ok');}
+  finally{input.disabled=false;input.value='';}
+ }
+
+ // ---------- events ----------
+ document.addEventListener('input',event=>{
+  const el=event.target;if(!el.matches('[data-collection][data-field]'))return;
+  const row=data[el.dataset.collection]?.[Number(el.dataset.index)];if(!row)return;
+  if(el.type==='checkbox'||el.tagName==='SELECT')return;
+  row[el.dataset.field]=el.type==='number'?Number(el.value):el.value;
+ });
+ document.addEventListener('change',event=>{
+  const el=event.target;
+  if(el.matches('[data-collection][data-field]')){
+   const col=el.dataset.collection,row=data[col]?.[Number(el.dataset.index)];if(!row)return;
+   const f=el.dataset.field;
+   if(col==='heroVideos'&&el.type==='checkbox'){
+    const limit=f==='showDesktop'?2:3;
+    const count=data.heroVideos.filter((v,idx)=>idx!==Number(el.dataset.index)&&v[f]!==false).length;
+    if(el.checked&&count>=limit){el.checked=false;showNotice(f==='showDesktop'?'الكمبيوتر يعرض فيديوهين فقط.':'الهاتف يعرض ثلاثة فيديوهات فقط.','error');return;}
+    row[f]=el.checked;renderHero();return;
+   }
+   row[f]=el.type==='checkbox'?el.checked:(el.type==='number'?Number(el.value):el.value);
+   if(col==='reviews'&&f==='mode')renderReviews();
+   if(col==='sections')renderAll();
+   return;
+  }
+  if(el.id==='workType'){syncWorkForm();return;}
+  const idx=Number(el.dataset.heroFile??el.dataset.itemThumb??el.dataset.itemImage??el.dataset.reviewImage);
+  if(el.matches('[data-hero-file]'))guarded(()=>uploadInto(el,'video',url=>{data.heroVideos[idx].url=url;renderHero();},'تم رفع الفيديو. اضغط «نشر التعديلات» لحفظه.'));
+  else if(el.matches('[data-item-thumb]'))guarded(()=>uploadInto(el,'image',url=>{data.items[idx].thumbnailUrl=url;renderItems();},'تمت إضافة الصورة المصغرة. اضغط «نشر التعديلات».'));
+  else if(el.matches('[data-item-image]'))guarded(()=>uploadInto(el,'image',url=>{data.items[idx].imageUrl=url;renderItems();},'تم استبدال الصورة. اضغط «نشر التعديلات».'));
+  else if(el.matches('[data-review-image]'))guarded(()=>uploadInto(el,'image',url=>{data.reviews[idx].imageUrl=url;renderReviews();},'تمت إضافة صورة الرأي. اضغط «نشر التعديلات».'));
+ });
+ document.addEventListener('click',event=>{
+  const tab=event.target.closest('[data-tab]');if(tab){activateTab(tab.dataset.tab);return;}
+  const move=event.target.closest('[data-move]');if(move){moveItem(data[move.dataset.move],Number(move.dataset.index),Number(move.dataset.step));return;}
+  const del=event.target.closest('[data-delete]');if(del){deleteRow(del.dataset.delete,Number(del.dataset.index));return;}
+  const clear=event.target.closest('[data-clear-thumb]');if(clear){data.items[Number(clear.dataset.clearThumb)].thumbnailUrl='';renderItems();}
+ });
+ $('loginForm').addEventListener('submit',async event=>{
+  event.preventDefault();clearNotice();
+  const password=$('password').value;const submit=$('loginForm').querySelector('button[type=submit]');
+  submit.disabled=true;submit.textContent='جارٍ الدخول...';
+  try{
+   const response=await fetch('/api/admin-auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password})});
+   let result={};try{result=await response.json()}catch{}
+   if(!response.ok)throw new Error(result.error==='Invalid password.'?'كلمة المرور غير صحيحة.':(result.error||'كلمة المرور غير صحيحة.'));
+   adminPassword=password;
+   $('loginWrap').classList.add('hidden');$('workspace').classList.add('active');$('logoutBtn').style.display='inline-flex';$('saveBtn').style.display='inline-flex';
+   await loadData(false);showNotice('تم تسجيل الدخول.','ok');
+  }catch(error){if(!$('workspace').classList.contains('active'))adminPassword='';showNotice(error.message||'تعذر تسجيل الدخول.','error');}
+  finally{submit.disabled=false;submit.textContent='دخول';}
+ });
+ $('logoutBtn').addEventListener('click',()=>{adminPassword='';data=rawDefault();$('workspace').classList.remove('active');$('loginWrap').classList.remove('hidden');$('logoutBtn').style.display='none';$('saveBtn').style.display='none';$('password').value='';$('repoStatus').textContent='غير متصل';showNotice('تم تسجيل الخروج.','info');});
+ $('addHero').addEventListener('click',addHero);$('addReview').addEventListener('click',addReview);
+ $('uploadWork').addEventListener('click',()=>guarded(uploadWork));
+ $('saveBtn').addEventListener('click',saveData);$('reloadBtn').addEventListener('click',()=>loadData(true));
+ $('addSection').addEventListener('click',()=>{
+  const title=$('newSectionTitle').value.trim(),titleAr=$('newSectionTitleAr').value.trim();
+  if(!title&&!titleAr){showNotice('أدخل اسم القسم بالعربية أو الإنجليزية على الأقل.','error');return;}
+  data.sections.push({id:makeId('section'),title:title||titleAr,titleAr:titleAr||title,order:Number($('newSectionOrder').value)||data.sections.length+1});
+  $('newSectionTitle').value='';$('newSectionTitleAr').value='';$('newSectionOrder').value=String(data.sections.length+1);
+  renderAll();showNotice('تمت إضافة القسم. اضغط «نشر التعديلات» لحفظه.','ok');
+ });
+ syncWorkForm();renderAll();
 })();
 </script></body></html>
