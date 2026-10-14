@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-14T23:02:25.977Z",
+  "updatedAt": "2026-10-14T23:11:53.379Z",
   "heroVideos": [
     {
       "id": "hero-mv8pns2c-w37ub",
@@ -39,7 +39,7 @@
       "clientName": "",
       "content": "",
       "detail": "",
-      "imageUrl": "",
+      "imageUrl": "/api/media/image-cbbaed46-92aa-4b92-9313-78355ed9b684.png",
       "label": "",
       "visible": true
     }
