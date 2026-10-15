@@ -1,16 +1,10 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-15T01:37:04.763Z",
+  "updatedAt": "2026-10-15T01:37:29.291Z",
   "heroVideos": [
     {
       "id": "hero-mv8sit1p-wcez8",
       "url": "/api/media/video-96a7eb82-70b1-4b34-9e83-c9814185acb5.mp4",
-      "showDesktop": true,
-      "showMobile": true
-    },
-    {
-      "id": "hero-mv8v7tpt-w3za0",
-      "url": "/api/media/video-02953dce-122d-4a92-b822-4a98078b8e74.mp4",
       "showDesktop": true,
       "showMobile": true
     }
@@ -38,5 +32,36 @@
       "showOnHome": true
     }
   ],
-  "reviews": []
+  "reviews": [
+    {
+      "id": "review-mv8uwaiv-0l6eg",
+      "mode": "image",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "/api/media/image-b54a4d5b-a738-4766-a986-03a1302be644.jpg",
+      "label": "",
+      "visible": true
+    },
+    {
+      "id": "review-mv8uzjce-u8qa8",
+      "mode": "image",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "/api/media/image-94a8247f-e39f-4921-a429-1352d9572bd5.jpg",
+      "label": "",
+      "visible": true
+    },
+    {
+      "id": "review-mv8vaexv-odjcv",
+      "mode": "image",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "",
+      "label": "",
+      "visible": true
+    }
+  ]
 }
