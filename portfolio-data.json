@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-15T00:36:07.036Z",
+  "updatedAt": "2026-10-15T00:53:05.319Z",
   "heroVideos": [
     {
       "id": "hero-mv8sit1p-wcez8",
@@ -9,7 +9,28 @@
       "showMobile": true
     }
   ],
-  "sections": [],
-  "items": [],
+  "sections": [
+    {
+      "id": "section-mv8tl2p8-4st9c",
+      "title": "Reels editing",
+      "titleAr": "Reels editing",
+      "order": 1
+    }
+  ],
+  "items": [
+    {
+      "id": "work-mv8trjab-8y9ny",
+      "type": "video",
+      "title": "F2",
+      "sectionId": "section-mv8tl2p8-4st9c",
+      "visible": true,
+      "storage": "r2",
+      "mediaType": "r2",
+      "videoUrl": "/api/media/video-3f6d73ef-bc34-44d0-8ac4-f44db07b0c0c.mp4",
+      "thumbnailUrl": "",
+      "orientation": "vertical",
+      "showOnHome": true
+    }
+  ],
   "reviews": []
 }
