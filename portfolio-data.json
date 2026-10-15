@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-10-15T01:04:46.987Z",
+  "updatedAt": "2026-10-15T01:27:22.786Z",
   "heroVideos": [
     {
       "id": "hero-mv8sit1p-wcez8",
@@ -32,5 +32,26 @@
       "showOnHome": true
     }
   ],
-  "reviews": []
+  "reviews": [
+    {
+      "id": "review-mv8uwaiv-0l6eg",
+      "mode": "image",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "/api/media/image-b54a4d5b-a738-4766-a986-03a1302be644.jpg",
+      "label": "",
+      "visible": true
+    },
+    {
+      "id": "review-mv8uzjce-u8qa8",
+      "mode": "text",
+      "clientName": "",
+      "content": "",
+      "detail": "",
+      "imageUrl": "",
+      "label": "",
+      "visible": true
+    }
+  ]
 }
