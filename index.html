@@ -435,6 +435,11 @@ body:before{opacity:.13;background-image:radial-gradient(rgba(255,255,255,.4) .7
 }
 @media(prefers-reduced-motion:reduce){.hero-preview-track{animation:none!important;transform:none!important}.work-track{animation:none!important;transform:none!important}}
 
+
+/* Hero video: never show a flat empty box */
+.video-card video{background:linear-gradient(145deg,#2a1640,#120d19)}
+.video-card.hero-video-failed:after{content:"";}
+.video-card.hero-video-failed video{opacity:.0}
 </style>
 </head>
 <body>
@@ -546,7 +551,23 @@ initializeLanguage();
   function heroPlayerMarkup(url, title) {
     const raw = String(url || '').trim();
     if (!isMedia(raw)) return '';
-    return `<video src="${esc(raw)}" autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-label="${esc(title || 'Muted hero preview')}"></video><span class="hero-no-controls" aria-hidden="true"></span>`;
+    // #t=0.001 forces mobile browsers to decode and paint the first frame even if autoplay is blocked.
+    return `<video src="${esc(raw)}#t=0.001" autoplay muted loop playsinline webkit-playsinline preload="auto" disablepictureinpicture disableremoteplayback aria-label="${esc(title || 'Muted hero preview')}"></video><span class="hero-no-controls" aria-hidden="true"></span>`;
+  }
+  // Mobile browsers sometimes ignore the muted/autoplay attributes when the <video> is injected via innerHTML.
+  function armHeroVideo(card) {
+    const video = card && card.querySelector('video');
+    if (!video) return;
+    video.muted = true; video.defaultMuted = true; video.playsInline = true;
+    const tryPlay = () => { const p = video.play(); if (p && p.catch) p.catch(() => {}); };
+    video.addEventListener('loadedmetadata', tryPlay);
+    video.addEventListener('canplay', tryPlay);
+    video.addEventListener('error', () => { console.warn('Hero video failed:', video.currentSrc, video.error && video.error.code); card.classList.add('hero-video-failed'); });
+    tryPlay();
+    // Autoplay blocked (data saver / battery saver): start on the first touch anywhere.
+    const unlock = () => { tryPlay(); };
+    ['touchstart', 'pointerdown', 'click', 'scroll'].forEach(ev => window.addEventListener(ev, unlock, { once: true, passive: true }));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
   }
   function renderHeroPreviews(data) {
     const stage = document.getElementById('heroStage');
@@ -569,7 +590,7 @@ initializeLanguage();
         card.innerHTML = item ? heroPlayerMarkup(item.url, '') : '';
         card.style.display = item ? '' : 'none';
         const video = card.querySelector('video');
-        if (video) video.play().catch(() => {});
+        armHeroVideo(card);
       });
     };
     paint();
